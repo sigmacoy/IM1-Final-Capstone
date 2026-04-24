@@ -27,5 +27,5 @@ medicine within a seven-day period.
 timestamp, user responsible, student recipient, and medicine dispensed, to ensure
 accountability and traceability
 
-## ERD
-![ERD Diagram](ERD.png)
+## Entity Relationship Diagram
+![Entity Relationship Diagram](ERD.png)
