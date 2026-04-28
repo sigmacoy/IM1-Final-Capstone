@@ -2,13 +2,13 @@
 
 ## Business Rules
 
-1. The system shall support two user roles: Admin (Clinic Staff) and Staff (NAS Working Student). Admin users have full management privileges, while Staff users have limited operational access.
+1. The system shall only support one user role: Admin (Clinic Staff). Admin users have full management privileges and operational access.
 
 2. Each medicine in the system shall be associated with exactly one supplier, while a supplier may supply multiple medicines…
 
 3. When a medicine is dispensed, the system shall automatically deduct the dispensed quantity from the available stock of that medicine.
 
-4. Only users with the role of Admin or Staff shall be authorized to dispense medicines, and each dispensing transaction shall be recorded in the Dispensation table.
+4. The role of Admin shall be authorized to dispense medicines, and each dispensing transaction shall be recorded in the Dispensation table.
 
 5. Medicines shall only be dispensed to registered patients (students or employees).
 
@@ -16,7 +16,7 @@
 
 7. The system shall prevent the dispensing of medicines whose expiry date has already passed.
 
-8. Only Admin users shall be permitted to increase or update the stock quantity of medicines when new supplies are received.
+8. The role of Admin users shall be permitted to increase or update the stock quantity of medicines when new supplies are received.
 
 9. A patient shall not be allowed to receive more than two dispensations of the same medicine within a seven-day period.
 
