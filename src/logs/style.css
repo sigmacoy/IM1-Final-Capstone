@@ -1,84 +1,166 @@
 /* logs/style.css */
 
+/* --- Page Layout --- */
 .logs-container {
     padding: 40px;
-    max-width: 1200px;
+    max-width: 1300px; /* Slightly wider to accommodate many columns */
     margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .page-title {
     color: #7b2c31; /* CIT Maroon */
-    font-size: 35px;
-    margin-bottom: 10px;
-    font-weight: bold;
+    font-size: 32px;
+    margin-bottom: 8px;
+    font-weight: 700;
 }
 
 .yellow-line {
     border: none;
     border-top: 3px solid #F8C400;
+    margin-bottom: 30px;
+}
+
+/* --- Toolbar Area --- */
+.toolbar {
     margin-bottom: 25px;
 }
 
-/* Toolbar */
-.toolbar {
-    margin-bottom: 20px;
-}
-
 .search-input {
-    width: 350px;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 380px;
+    padding: 12px 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
     font-size: 14px;
     outline: none;
+    color: #374151;
 }
 
-/* Table Area */
+.search-input::placeholder {
+    color: #9ca3af;
+}
+
+/* --- Table Container --- */
 .table-container {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     overflow: hidden;
-    padding-bottom: 150px; /* Forces height while empty */
 }
 
+/* --- Table Layout & Spacing --- */
 .logs-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
 
+/* Header Styling */
 .logs-table th {
-    padding: 20px;
-    color: #6b7280;
-    font-weight: bold;
-    font-size: 13px;
-    border-bottom: 1px solid #f3f4f6;
+    padding: 20px 24px;
+    color: #6b7280; /* Muted gray from photo */
+    font-weight: 700;
+    font-size: 12px; /* Smaller header text like in photo */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     background-color: #fafafa;
+    border-bottom: 2px solid #f3f4f6;
 }
 
-/* Pre-styled elements for when you add data */
-.type-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
+/* Row & Cell Spacing */
+.logs-table td {
+    padding: 24px; /* Creates that tall, spacious row from the photo */
+    vertical-align: middle; /* Keeps everything centered relative to the notes box */
+    border-bottom: 1px solid #f9fafb;
+    color: #374151;
+    font-size: 14px;
+}
+
+/* Remove bottom border on last item */
+.logs-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Specific Column Styling --- */
+
+/* Column: Date & Time */
+.text-date {
+    color: #9ca3af;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Column: Patient Details */
+.patient-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.patient-id {
+    display: block;
     font-size: 12px;
-    font-weight: bold;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* Column: Medicine */
+.medicine-text {
+    color: #4b5563;
+    font-size: 14px;
+}
+
+/* Column: QTY */
+.qty-bold {
+    font-size: 18px; /* Larger bold number */
+    font-weight: 800;
+    color: #000;
+}
+
+/* Column: Dispensation Notes (Yellow Box) */
+.dispensation-notes {
+    background-color: #fefce8; /* Light yellow background */
+    border-left: 4px solid #fbbf24; /* Thick yellow left border */
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #4b5563;
+    max-width: 280px;
+    line-height: 1.5;
+    border-radius: 2px;
+}
+
+/* Column: Authorized By */
+.admin-name {
+    color: #7b2c31; /* CIT Maroon */
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.admin-label {
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 2px;
+}
+
+/* --- Badges --- */
+.type-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    display: inline-block;
+    letter-spacing: 0.05em;
 }
 
 .badge-student {
-    background-color: #e0f2fe; /* Light Blue */
-    color: #0284c7; /* Dark Blue */
+    background-color: #e0f2fe;
+    color: #0284c7;
 }
 
 .badge-employee {
-    background-color: #f3e8ff; /* Light Purple */
-    color: #9333ea; /* Dark Purple */
-}
-
-.dispensation-notes {
-    background-color: #fefce8; /* Light Yellow */
-    border-left: 3px solid #facc15; /* Solid Yellow */
-    padding: 10px 15px;
-    font-size: 13px;
-    color: #555;
+    background-color: #f3e8ff;
+    color: #9333ea;
 }
