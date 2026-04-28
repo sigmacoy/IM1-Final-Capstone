@@ -1,4 +1,5 @@
 /* components/shared.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Balthazar&display=swap');
 
 body {
     margin: 0;
@@ -28,9 +29,10 @@ body {
 
 .main-header .logo-container h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: normal;
     color: white; 
+    font-family: 'Balthazar', serif;
 }
 
 .nav-links {

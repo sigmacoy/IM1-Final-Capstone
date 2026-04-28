@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Balthazar&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Balthazar&display=swap');
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -7,9 +10,10 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 40px;
+    padding: 0px 60px 0px 40px;
     background-color: #fff;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Balthazar', serif;
 }
 
 .logo-container {
@@ -20,16 +24,17 @@ header {
 }
 
 .logo {
-    height: 50px;
+    height: 60px;
 }
 
 .login-btn {
     background: none;
     border: none;
     color: #7b2c31;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Modal Overlay */
@@ -112,9 +117,10 @@ header {
 }
 
 .hero-content h2 {
-    font-size: 52px;
+    font-size: 70px;
     margin-bottom: 15px;
     letter-spacing: 1px;
+    font-family: 'Inter', sans-serif;
 }
 
 .hero-content p {
