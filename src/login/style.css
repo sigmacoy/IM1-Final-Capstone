@@ -1,0 +1,197 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #fff;
+    border-bottom: 2px solid #ddd;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #7b2c31; /* CIT Maroon */
+}
+
+.logo {
+    height: 50px;
+}
+
+.login-btn {
+    background: none;
+    border: none;
+    color: #7b2c31;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Modal Overlay */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+.modal input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submit-btn, .close-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-btn { background: #8c383e; color: white; font-weight: bold; }
+.close-btn { background: #ddd; color: black; }
+.error { color: red; font-size: 14px; }
+
+/* --- Hero Section --- */
+.hero {
+    background-image: url('../icons/dark-red-overlay.png'), url('../icons/gle.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    height: 650px; /* Increased from 500px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+
+.access-btn {
+    background-color: #facc15;
+    color: #7b2c31; 
+    border: none;
+    padding: 15px 35px;
+    font-size: 18px;
+    font-weight: 900;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block; /* Added */
+    text-decoration: none; /* Added */
+}
+
+.hero-content h2 {
+    font-size: 52px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.hero-content p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.access-label {
+    background-color: #facc15;
+    color: #7b2c31; 
+    padding: 15px 35px;
+    font-size: 18px;
+    font-weight: 900;
+    border-radius: 8px;
+    display: inline-block;
+    
+    /* Makes it not look/act like a button */
+    cursor: default; 
+    user-select: none; 
+    pointer-events: none; /* Disables all clicks/hover effects */
+}
+
+/* --- Features Section --- */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 60px 20px;
+    background-color: #fff;
+}
+
+.feature-card {
+    background-color: #8c383e;
+    color: white;
+    padding: 40px 20px;
+    border-radius: 12px;
+    width: 280px;
+    text-align: center;
+}
+
+.feature-card h3 {
+    font-size: 22px; /* Increased from 18px */
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f1f1f1;
+}
+
+/* --- Stats Section --- */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #facc15;
+    padding: 40px 10%;
+    text-align: center;
+    color: #7b2c31;
+}
+
+.stat-item h2 {
+    font-size: 40px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.stat-item p {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+    color: #000;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.copyright {
+    font-weight: bold;
+    margin-top: 10px;
+}

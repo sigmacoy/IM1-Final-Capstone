@@ -1,0 +1,3 @@
+Open Terminal
+sudo chmod -R 755 /Applications/XAMPP/xamppfiles/htdocs/IM1-Final-Capstone
+
