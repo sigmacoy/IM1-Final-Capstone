@@ -23,4 +23,3 @@
 10. The system shall permanently record all dispensing transactions, including the timestamp, user responsible, patient recipient, and medicine dispensed, to ensure accountability and traceability.
 
 ## Entity Relationship Diagram
-![Entity Relationship Diagram](ERD.png)
