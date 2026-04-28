@@ -11,7 +11,7 @@
     <?php include '../components/header.php'; ?>
 
 <main class="logs-container">
-    <h2 class="page-title">Patient Dispensation History</h2>
+    <h2 class="page-title">&nbsp;Patient Dispensation History</h2>
     <hr class="yellow-line">
 
     <div class="toolbar">

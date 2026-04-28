@@ -68,9 +68,19 @@ header {
     cursor: pointer;
 }
 
-.submit-btn { background: #8c383e; color: white; font-weight: bold; }
-.close-btn { background: #ddd; color: black; }
-.error { color: red; font-size: 14px; }
+.submit-btn { 
+    background: #8c383e; 
+    color: white; 
+    font-weight: bold; 
+}
+.close-btn { 
+    background: #ddd; 
+    color: black; 
+}
+.error { 
+    color: red; 
+    font-size: 14px; 
+}
 
 /* --- Hero Section --- */
 .hero {
