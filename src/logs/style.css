@@ -1,0 +1,84 @@
+/* logs/style.css */
+
+.logs-container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-title {
+    color: #7b2c31; /* CIT Maroon */
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.yellow-line {
+    border: none;
+    border-top: 3px solid #F8C400;
+    margin-bottom: 25px;
+}
+
+/* Toolbar */
+.toolbar {
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 350px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Table Area */
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+    padding-bottom: 150px; /* Forces height while empty */
+}
+
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.logs-table th {
+    padding: 20px;
+    color: #6b7280;
+    font-weight: bold;
+    font-size: 13px;
+    border-bottom: 1px solid #f3f4f6;
+    background-color: #fafafa;
+}
+
+/* Pre-styled elements for when you add data */
+.type-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-student {
+    background-color: #e0f2fe; /* Light Blue */
+    color: #0284c7; /* Dark Blue */
+}
+
+.badge-employee {
+    background-color: #f3e8ff; /* Light Purple */
+    color: #9333ea; /* Dark Purple */
+}
+
+.dispensation-notes {
+    background-color: #fefce8; /* Light Yellow */
+    border-left: 3px solid #facc15; /* Solid Yellow */
+    padding: 10px 15px;
+    font-size: 13px;
+    color: #555;
+}

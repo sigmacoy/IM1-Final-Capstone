@@ -3,13 +3,12 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Optional: gives the dashboard a soft background */
+    background-color: #f4f4f4;
 }
 
 .logo {
     height: 50px;
     border-radius: 50%;
-    
 }
 
 .main-header {
@@ -25,7 +24,6 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    
 }
 
 .main-header .logo-container h1 {

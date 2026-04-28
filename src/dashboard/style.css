@@ -1,0 +1,79 @@
+/* dashboard/style.css */
+
+.dashboard-container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-text {
+    color: #7b2c31; 
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.yellow-line {
+    border: none;
+    border-top: 3px solid #F8C400;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+}
+
+.stat-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    flex: 1;
+    border-left: 8px solid #F8C400; 
+}
+
+.stat-card.low-stock {
+    border-left: 8px solid #b74141; 
+}
+
+.stat-card p {
+    color: #555;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+.stat-card h3 {
+    font-size: 32px;
+    margin: 0;
+    color: #000;
+}
+
+.dashboard-grid {
+    display: flex;
+    gap: 20px;
+}
+
+.current-inventory {
+    flex: 2; 
+}
+
+.recent-logs {
+    flex: 1; 
+}
+
+.section-title {
+    color: #7b2c31;
+    margin: 0 0 15px 0;
+    font-size: 20px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,91 @@
+/* supplies/style.css */
+
+.supplies-container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-title {
+    color: #7b2c31; /* CIT Maroon */
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.yellow-line {
+    border: none;
+    border-top: 3px solid #F8C400;
+    margin-bottom: 25px;
+}
+
+/* Toolbar Layout */
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1; /* Takes up all remaining space */
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+.category-select {
+    padding: 12px 15px;
+    padding-right: 35px; /* Prevents text from overlapping the arrow */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+    background-color: white;
+    cursor: pointer;
+    
+    /* 1. Hide the default arrow */
+    appearance: none; 
+    -webkit-appearance: none; 
+    
+    /* 2. Add a custom arrow and move it 12px from the right */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.add-btn {
+    background-color: #eab308;
+    color: black;
+    border: none;
+    padding: 12px 25px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* Table Area */
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow: hidden; /* Keeps corners rounded with inner table */
+    padding-bottom: 150px; /* Forces height for the empty table body */
+}
+
+.supplies-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.supplies-table th {
+    padding: 20px;
+    color: #6b7280; /* Muted gray text */
+    font-weight: bold;
+    font-size: 14px;
+    border-bottom: 1px solid #f3f4f6;
+    background-color: #fafafa;
+}
