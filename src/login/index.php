@@ -1,23 +1,37 @@
 <?php
     session_start();
     $error = '';
+    $showModal = false; // Flag to keep the modal open if there's an error
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];
+        $email = trim($_POST['email']);
         $password = $_POST['password'];
 
-        // Database connection
-        $pdo = new PDO("mysql:host=127.0.0.1;dbname=im1_capstone_db;port=3306", "root", "");
-        $stmt = $pdo->prepare("SELECT * FROM User WHERE email = ? OR email = ?");
-        $stmt->execute([$email, 'admin']); // Allows 'admin' or 'admin@cit.edu'
-        $user = $stmt->fetch();
+        try {
+            // Updated to connect to the correct database: citu_clinic_inventory
+            $pdo = new PDO("mysql:host=127.0.0.1;dbname=citu_clinic_inventory;port=3306", "root", "");
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user'] = $user['first_name'];
-            header("Location: ../dashboard/index.php"); // Redirect on success
-            exit;
-        } else {
-            $error = "Invalid credentials.";
+            // Fixed SQL Query: Only search for the exact email/username entered
+            $stmt = $pdo->prepare("SELECT * FROM User WHERE email = ?");
+            $stmt->execute([$email]); 
+            $user = $stmt->fetch();
+
+            // todo change it to hashing to make it more safer
+            if ($user && $password === $user['password']) { 
+                // Best practice: store the user_id in the session for future database inserts (like Dispensation)
+                $_SESSION['user_id'] = $user['user_id']; 
+                $_SESSION['user'] = $user['first_name'];
+                
+                header("Location: ../dashboard/index.php"); 
+                exit;
+            } else {
+                $error = "Invalid credentials.";
+                $showModal = true; // Trigger the modal to stay open
+            }
+        } catch (PDOException $e) {
+            $error = "Connection failed. Please check your database.";
+            $showModal = true;
         }
     }
 ?>

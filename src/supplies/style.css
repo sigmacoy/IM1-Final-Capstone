@@ -1,5 +1,6 @@
 /* supplies/style.css */
 
+/* --- Container & Header Layout --- */
 .supplies-container {
     padding: 40px;
     max-width: 1200px;
@@ -18,7 +19,7 @@
     margin-bottom: 25px;
 }
 
-/* Toolbar Layout */
+/* --- Toolbar Area --- */
 .toolbar {
     display: flex;
     gap: 15px;
@@ -45,11 +46,11 @@
     background-color: white;
     cursor: pointer;
     
-    /* 1. Hide the default arrow */
+    /* Hide the default arrow */
     appearance: none; 
     -webkit-appearance: none; 
     
-    /* 2. Add a custom arrow and move it 12px from the right */
+    /* Add a custom arrow and move it 12px from the right */
     background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 12px center;
@@ -66,26 +67,65 @@
     font-size: 15px;
 }
 
-/* Table Area */
+/* --- Table Container --- */
 .table-container {
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     overflow: hidden; /* Keeps corners rounded with inner table */
-    padding-bottom: 150px; /* Forces height for the empty table body */
+    padding-bottom: 20px; /* Removed the 150px padding so it fits dynamically */
 }
 
+/* --- Table Layout & Spacing --- */
 .supplies-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    margin-top: 15px;
+}
+
+.supplies-table th, 
+.supplies-table td {
+    padding: 18px 20px; /* Creates the tall, spacious rows */
+    vertical-align: middle; /* Perfectly centers the text and badge vertically */
+    border-bottom: 1px solid #f3f4f6; /* Subtle gray line between rows */
+    font-size: 0.95em;
 }
 
 .supplies-table th {
-    padding: 20px;
-    color: #6b7280; /* Muted gray text */
-    font-weight: bold;
-    font-size: 14px;
-    border-bottom: 1px solid #f3f4f6;
+    color: #6b7280; /* Grayish text for the headers */
     background-color: #fafafa;
+    font-weight: bold;
+    text-transform: capitalize;
+    border-bottom: 2px solid #e5e7eb; /* Slightly thicker line under headers */
+}
+
+/* Remove border from the very last row for a cleaner look */
+.supplies-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Badges & Status Colors --- */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.badge.in-stock { background-color: #e6f4ea; color: #1e8e3e; }
+.badge.low-stock { background-color: #fce8e6; color: #d93025; }
+.badge.expiring { background-color: #fef7e0; color: #b06000; }
+.badge.expired { background-color: #cecece; color: #333333; }
+
+/* Danger text color for low stock numbers */
+.text-danger { 
+    color: #d93025; 
+    font-weight: bold; 
+}
+
+/* Applies the light red background to the entire table row */
+tr.row-danger {
+    background-color: #fff4f4; 
 }
