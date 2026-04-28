@@ -3,7 +3,7 @@
 
     // Security check: If they aren't logged in, kick them back to the login page
     if (!isset($_SESSION['user_id'])) {
-        header("Location: ../login/login.php"); 
+        header("Location: ../login/index.php"); 
         exit;
     }
 
