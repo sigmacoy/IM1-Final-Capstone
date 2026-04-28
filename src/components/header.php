@@ -6,7 +6,7 @@
 
 <header class="main-header">
     <div class="logo-container">
-        <img src="../icons/cit-logo-white.png" alt="CIT Logo" class="logo">
+        <img src="../images/cit-logo-white.png" alt="CIT Logo" class="logo">
         <h1>CIT-U CLINIC INVENTORY</h1>
     </div>
     <nav class="nav-links">

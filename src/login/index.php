@@ -46,7 +46,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="../icons/cit-logo.png" alt="CIT Logo" class="logo">
+            <img src="../images/cit-logo.png" alt="CIT Logo" class="logo">
             <h1>CIT-U CLINIC INVENTORY</h1>
         </div>
         <button onclick="toggleLogin()" class="login-btn">Admin Login</button>
