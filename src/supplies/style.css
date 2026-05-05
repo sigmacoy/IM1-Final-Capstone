@@ -1,6 +1,4 @@
-/* supplies/style.css */
-
-/* --- Container & Header Layout --- */
+/* --- 1. Container & Layout --- */
 .supplies-container {
     padding: 40px;
     max-width: 1200px;
@@ -9,17 +7,17 @@
 
 .page-title {
     color: #7b2c31; /* CIT Maroon */
-    font-size: 35px;
+    font-size: 30px;
     margin-bottom: 10px;
 }
 
 .yellow-line {
     border: none;
-    border-top: 3px solid #F8C400;
-    margin-bottom: 25px;
+    border-top: 3px solid #F8C400; /* CIT Yellow */
+    margin-bottom: 30px;
 }
 
-/* --- Toolbar Area --- */
+/* --- 2. Toolbar (Search & Filter) --- */
 .toolbar {
     display: flex;
     gap: 15px;
@@ -28,84 +26,72 @@
 }
 
 .search-input {
-    flex: 1; /* Takes up all remaining space */
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
     font-size: 14px;
     outline: none;
 }
 
+.search-input:focus {
+    border-color: #F8C400;
+    box-shadow: 0 0 0 2px rgba(248, 196, 0, 0.2);
+}
+
 .category-select {
-    padding: 12px 15px;
-    padding-right: 35px; /* Prevents text from overlapping the arrow */
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
     font-size: 14px;
-    width: 200px;
+    min-width: 200px;
+    outline: none;
     background-color: white;
-    cursor: pointer;
-    
-    /* Hide the default arrow */
-    appearance: none; 
-    -webkit-appearance: none; 
-    
-    /* Add a custom arrow and move it 12px from the right */
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 12px center;
 }
 
-.add-btn {
-    background-color: #eab308;
-    color: black;
-    border: none;
-    padding: 12px 25px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-/* --- Table Container --- */
+/* --- 3. Supplies Table --- */
 .table-container {
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    overflow: hidden; /* Keeps corners rounded with inner table */
-    padding-bottom: 20px; /* Removed the 150px padding so it fits dynamically */
+    overflow: hidden;
 }
 
-/* --- Table Layout & Spacing --- */
 .supplies-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    margin-top: 15px;
 }
 
 .supplies-table th, 
 .supplies-table td {
-    padding: 18px 20px; /* Creates the tall, spacious rows */
-    vertical-align: middle; /* Perfectly centers the text and badge vertically */
-    border-bottom: 1px solid #f3f4f6; /* Subtle gray line between rows */
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
     font-size: 0.95em;
+    vertical-align: middle;
 }
 
 .supplies-table th {
-    color: #6b7280; /* Grayish text for the headers */
-    background-color: #fafafa;
+    background-color: #f9fafb;
+    color: #6b7280;
+    font-size: 0.85em;
+    text-transform: uppercase;
     font-weight: bold;
-    text-transform: capitalize;
-    border-bottom: 2px solid #e5e7eb; /* Slightly thicker line under headers */
 }
 
-/* Remove border from the very last row for a cleaner look */
-.supplies-table tbody tr:last-child td {
-    border-bottom: none;
+.supplies-table tbody tr:hover {
+    background-color: #f8fafc;
 }
 
-/* --- Badges & Status Colors --- */
+/* Row highlights for danger states */
+.row-danger {
+    background-color: #fff5f5; 
+}
+.row-danger:hover {
+    background-color: #ffebeb !important;
+}
+
+/* --- 4. Badges & Status --- */
 .badge {
     padding: 6px 12px;
     border-radius: 20px;
@@ -116,16 +102,175 @@
 
 .badge.in-stock { background-color: #e6f4ea; color: #1e8e3e; }
 .badge.low-stock { background-color: #fce8e6; color: #d93025; }
-.badge.expiring { background-color: #fef7e0; color: #b06000; }
-.badge.expired { background-color: #cecece; color: #333333; }
+.badge.expiring { background-color: #fef0d9; color: #b45f06; }
+.badge.expired { background-color: #f1f3f4; color: #5f6368; }
 
-/* Danger text color for low stock numbers */
-.text-danger { 
-    color: #d93025; 
+.text-danger { color: #d93025; font-weight: bold; }
+
+/* --- 5. Buttons --- */
+.add-btn {
+    background-color: #eab308; /* CIT Yellow */
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.add-btn:hover {
+    background-color: #ca9a04;
+}
+
+.btn-discard {
+    background-color: white;
+    color: #d93025;
+    border: 2px solid #d93025;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.btn-discard:hover {
+    background-color: #d93025;
+    color: white;
+}
+
+/* --- 6. Modal Overlay & Form --- */
+.modal-overlay {
+    position: fixed; 
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(3px);
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white; 
+    padding: 30px; 
+    border-radius: 10px;
+    width: 100%; 
+    max-width: 600px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 20px; 
+    border-bottom: 2px solid #f3f4f6; 
+    padding-bottom: 10px;
+}
+
+.modal-header h2 { 
+    color: #7b2c31; 
+    margin: 0; 
+    font-size: 22px; 
+}
+
+.close-icon { 
+    background: none; 
+    border: none; 
+    font-size: 28px; 
+    cursor: pointer; 
+    color: #9ca3af; 
+}
+
+.close-icon:hover { color: #d93025; }
+
+.form-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+}
+
+.input-group { 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.input-group.full-width {
+    grid-column: span 2;
+}
+
+.input-group label { 
+    font-size: 13px; 
+    font-weight: bold; 
+    color: #4b5563; 
+    margin-bottom: 5px; 
+}
+
+.input-group input, 
+.input-group select { 
+    padding: 10px; 
+    border: 1px solid #d1d5db; 
+    border-radius: 5px; 
+    font-size: 14px; 
+    outline: none; 
+}
+
+.input-group input:focus, 
+.input-group select:focus { 
+    border-color: #F8C400; 
+    box-shadow: 0 0 0 2px rgba(248, 196, 0, 0.2); 
+}
+
+.modal-actions { 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 10px; 
+    margin-top: 25px; 
+}
+
+.btn-cancel { 
+    padding: 10px 20px; 
+    background: #f3f4f6; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    color: #4b5563; 
+}
+
+.btn-save { 
+    padding: 10px 20px; 
+    background: #7b2c31; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
     font-weight: bold; 
 }
 
-/* Applies the light red background to the entire table row */
-tr.row-danger {
-    background-color: #fff4f4; 
+.btn-save:hover { background: #5a1e22; }
+
+/* --- 7. Alerts --- */
+.alert-success { 
+    background-color: #e6f4ea; 
+    color: #1e8e3e; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 15px; 
+    border-left: 4px solid #1e8e3e; 
+    font-weight: bold; 
+}
+
+.alert-error { 
+    background-color: #fce8e6; 
+    color: #d93025; 
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-bottom: 15px; 
+    border-left: 4px solid #d93025; 
+    font-weight: bold; 
 }
