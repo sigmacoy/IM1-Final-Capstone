@@ -89,12 +89,7 @@ header {
 
 /* --- Hero Section --- */
 .hero {
-    background-image: url('../icons/dark-red-overlay.png'), url('../icons/gle.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-blend-mode: multiply;
-    height: 650px; /* Increased from 500px */
+    height: 650px;
     display: flex;
     justify-content: center;
     align-items: center;

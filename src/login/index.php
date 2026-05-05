@@ -3,6 +3,14 @@
     $error = '';
     $showModal = false; // Flag to keep the modal open if there's an error
 
+    // Check if there's a stored error from previous POST
+    if (isset($_SESSION['login_error'])) {
+        $error = $_SESSION['login_error'];
+        $showModal = $_SESSION['show_modal'];
+        unset($_SESSION['login_error']);
+        unset($_SESSION['show_modal']);
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
@@ -26,8 +34,11 @@
                 header("Location: ../dashboard/index.php"); 
                 exit;
             } else {
-                $error = "Invalid credentials.";
-                $showModal = true; // Trigger the modal to stay open
+                $_SESSION['login_error'] = "Invalid credentials.";
+                $_SESSION['show_modal'] = true;
+
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit;
             }
         } catch (PDOException $e) {
             $error = "Connection failed. Please check your database.";
@@ -52,7 +63,7 @@
         <button onclick="toggleLogin()" class="login-btn">Admin Login</button>
     </header>
 
-    <section class="hero">
+    <section class="hero" style="background-image: linear-gradient(rgba(100, 0, 0, 0.7), rgba(100, 0, 0, 0.7)), url('/IM1-Final-Capstone/src/images/gle.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <div class="hero-content">
             <h2>PRECISION IN HEALTHCARE</h2>
             <p>Managing the medical resources of Cebu Institute of Technology – University with digital<br>accuracy and real-time efficiency.</p>
@@ -95,7 +106,7 @@
         <p class="copyright">© 2026 Clinic Inventory Management System. All Rights Reserved.</p>
     </footer>
 
-    <div id="loginOverlay" class="overlay" style="display: none;">
+    <div id="loginOverlay" class="overlay" style="display: <?php echo $showModal ? 'flex' : 'none'; ?>;">
         <div class="modal">
             <h2>Login</h2>
             <?php if ($error) echo "<p class='error'>$error</p>"; ?>
@@ -114,5 +125,6 @@
             overlay.style.display = overlay.style.display === 'none' ? 'flex' : 'none';
         }
     </script>
+
 </body>
 </html>
