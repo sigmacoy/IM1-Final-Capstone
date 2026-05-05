@@ -98,19 +98,6 @@ header {
     padding: 0 20px;
 }
 
-.access-btn {
-    background-color: #facc15;
-    color: #7b2c31; 
-    border: none;
-    padding: 15px 35px;
-    font-size: 18px;
-    font-weight: 900;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-block; /* Added */
-    text-decoration: none; /* Added */
-}
-
 .hero-content h2 {
     font-size: 70px;
     margin-bottom: 15px;
@@ -132,11 +119,6 @@ header {
     font-weight: 900;
     border-radius: 8px;
     display: inline-block;
-    
-    /* Makes it not look/act like a button */
-    cursor: default; 
-    user-select: none; 
-    pointer-events: none; /* Disables all clicks/hover effects */
 }
 
 /* --- Features Section --- */
