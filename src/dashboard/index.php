@@ -49,10 +49,51 @@
         ");
         $expiringSoon = (int) $stmtExpiring->fetch()['expiring_count'];
 
+        // 4. Current Inventory
+        $currentInventory = [];
+        $stmtInventory = $pdo->query("
+            SELECT 
+                m.medicine_id,
+                m.name,
+                m.reorder_level,
+                IFNULL(SUM(mb.quantity_in_stock), 0) AS total_stock
+            FROM Medicine m
+            LEFT JOIN MedicineBatch mb 
+                ON m.medicine_id = mb.medicine_id
+            GROUP BY m.medicine_id, m.name, m.reorder_level
+            ORDER BY total_stock ASC
+        ");
+        $currentInventory = $stmtInventory->fetchAll(PDO::FETCH_ASSOC);
+
+        // 5. Recent Activity Logs
+        $recentLogs = [];
+
+        $stmtLogs = $pdo->query("
+            SELECT 
+                d.dispense_id,
+                d.dispense_date,
+                d.purpose,
+                m.name AS medicine_name,
+                di.quantity
+            FROM Dispensation d
+            JOIN DispensationItem di 
+                ON d.dispense_id = di.dispense_id
+            JOIN MedicineBatch mb 
+                ON di.batch_id = mb.batch_id
+            JOIN Medicine m 
+                ON mb.medicine_id = m.medicine_id
+            ORDER BY d.dispense_date DESC
+            LIMIT 5
+        ");
+
+        $recentLogs = $stmtLogs->fetchAll(PDO::FETCH_ASSOC);
+
     } catch (PDOException $e) {
         // If DB fails, show a dash instead of crashing the page
         $totalStock = $lowStock = $expiringSoon = "-"; 
+        die("DB ERROR: " . $e->getMessage());
     }
+    
 ?>
 
 <!DOCTYPE html>
@@ -95,13 +136,60 @@
         <div class="card current-inventory">
             <h3 class="section-title">Current Inventory</h3>
             <hr class="divider">
-            </div>
+
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Medicine</th>
+                        <th>Stock</th>
+                        <th>Reorder</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($currentInventory as $item): 
+                        $isLow = $item['total_stock'] <= $item['reorder_level'];
+                    ?>
+                        <tr class="<?php echo $isLow ? 'low-stock-row' : ''; ?>">
+                            <td><?php echo htmlspecialchars($item['name']); ?></td>
+                            <td><?php echo $item['total_stock']; ?></td>
+                            <td><?php echo $item['reorder_level']; ?></td>
+                            <td>
+                                <button class="dispense-btn">Dispense</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
         
         <div class="card recent-logs">
             <h3 class="section-title">Recent Activity Logs</h3>
             <hr class="divider">
-            </div>
-    </div>
+
+            <?php if (empty($recentLogs)): ?>
+                <p style="text-align:center; color:gray;">No dispensations yet.</p>
+            <?php else: ?>
+                <ul class="activity-list">
+                    <?php foreach ($recentLogs as $log): ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($log['medicine_name']); ?></strong>
+                            — <?php echo $log['quantity']; ?> pcs
+
+                            <?php if (!empty($log['purpose'])): ?>
+                                <br>
+                                <em><?php echo htmlspecialchars($log['purpose']); ?></em>
+                            <?php endif; ?>
+
+                            <br>
+                            <small>
+                                <?php echo date("M d, Y h:i A", strtotime($log['dispense_date'])); ?>
+                            </small>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
 </main>
 
 </body>
