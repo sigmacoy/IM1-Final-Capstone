@@ -1,8 +1,8 @@
 # TODO:
 
-1. set up supply search bar
-2. set up category (wil need to add predetermined types of medicine)
-3. add medicine function
+1. Medicine Supplies search bar name or category
+2. Categories search
+3. add new medicine function
 4. search look up of logs
-5. a tab for the list of suppliers
+5. UI of current inventory
 6. login password was not hash will implement it later
