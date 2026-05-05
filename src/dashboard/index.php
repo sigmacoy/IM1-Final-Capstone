@@ -89,8 +89,6 @@
         $recentLogs = $stmtLogs->fetchAll(PDO::FETCH_ASSOC);
 
     } catch (PDOException $e) {
-        // If DB fails, show a dash instead of crashing the page
-        $totalStock = $lowStock = $expiringSoon = "-"; 
         die("DB ERROR: " . $e->getMessage());
     }
     
@@ -113,22 +111,22 @@
     <h2 class="welcome-text">&nbsp;Welcome, <?php echo htmlspecialchars($firstName); ?>!</h2>
     <hr class="yellow-line">
 
-    <div class="stat-cards">
-        <div class="card stat-card total-stock">
-            <p>Total Stock</p>
-            <h3>
-                <?php echo is_numeric($totalStock) ? number_format($totalStock) : $totalStock; ?>
-            </h3>
-        </div>
+    <div class="stats-wrapper">
+        <div class="stat-cards">
+            <div class="card stat-card total-stock" style="border-radius: 20px !important; overflow: hidden;" >
+                <p>Total Stock</p>
+                <h3><?php echo number_format($totalStock); ?></h3>
+            </div>
 
-        <div class="card stat-card low-stock">
-            <p>Low Stock Items</p>
-            <h3><?php echo $lowStock; ?></h3>
-        </div>
+            <div class="card stat-card low-stock" style="border-radius: 20px !important; overflow: hidden;" >
+                <p>Low Stock Items</p>
+                <h3><?php echo $lowStock; ?></h3>
+            </div>
 
-        <div class="card stat-card expiring-soon">
-            <p>Expiring Soon (60 Days)</p>
-            <h3><?php echo $expiringSoon; ?></h3>
+            <div class="card stat-card expiring-soon" style="border-radius: 20px !important; overflow: hidden;" >
+                <p>Expiring Soon (60 Days)</p>
+                <h3><?php echo $expiringSoon; ?></h3>
+            </div>
         </div>
     </div>
 
