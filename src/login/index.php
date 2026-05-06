@@ -56,7 +56,7 @@
         <div class="hero-content">
             <h2>PRECISION IN HEALTHCARE</h2>
             <p>Managing the medical resources of Cebu Institute of Technology – University with digital<br>accuracy and real-time efficiency.</p>
-            <div class="access-label">ACCESS SYSTEM</div>
+            <button onclick="toggleLogin()" class="access-btn">ACCESS SYSTEM</button>
         </div>
     </section>
 
@@ -115,4 +115,53 @@
         }
     </script>
 </body>
+
+<script>
+function animateNumbers() {
+    const statItems = document.querySelectorAll('.stat-item h2');
+    
+    statItems.forEach(item => {
+        const target = parseFloat(item.innerText);
+        const isPercent = item.innerText.includes('%');
+        const isPlus = item.innerText.includes('+');
+        let start = 0;
+        let current = start;
+        const increment = target / 50; // 50 steps
+        let duration = 2000; // 2 seconds
+        
+        let timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                let display = Math.floor(current);
+                if (isPercent) display = display + '%';
+                if (isPlus) display = display + '+';
+                item.innerText = display;
+                clearInterval(timer);
+            } else {
+                let display = Math.floor(current);
+                if (isPercent) display = display + '%';
+                if (isPlus) display = display + '+';
+                item.innerText = display;
+            }
+        }, duration / 50);
+    });
+}
+
+// Trigger when stats come into view
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateNumbers();
+            observer.disconnect();
+        }
+    });
+});
+
+const statsSection = document.querySelector('.stats');
+if (statsSection) {
+    observer.observe(statsSection);
+}
+</script>
+
 </html>

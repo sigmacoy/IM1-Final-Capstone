@@ -35,6 +35,11 @@ header {
     font-weight: bold;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
+    transition: color 0.3s ease;
+}
+
+.login-btn:hover {
+    color: #facc15;
 }
 
 /* Modal Overlay */
@@ -89,7 +94,7 @@ header {
 
 /* --- Hero Section --- */
 .hero {
-    background-image: url('../icons/dark-red-overlay.png'), url('../icons/gle.png');
+    background-image: url('../images/dark-red-overlay.png'), url('../images/gle.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -129,19 +134,24 @@ header {
     line-height: 1.4;
 }
 
-.access-label {
+.access-btn {
     background-color: #facc15;
-    color: #7b2c31; 
+    color: #7b2c31;
+    border: none;
     padding: 15px 35px;
     font-size: 18px;
     font-weight: 900;
     border-radius: 8px;
+    cursor: pointer;
     display: inline-block;
-    
-    /* Makes it not look/act like a button */
-    cursor: default; 
-    user-select: none; 
-    pointer-events: none; /* Disables all clicks/hover effects */
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    transform-origin: center;
+}
+
+.access-btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
 }
 
 /* --- Features Section --- */
