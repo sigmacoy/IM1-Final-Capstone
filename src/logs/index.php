@@ -64,11 +64,13 @@
         <hr class="yellow-line">
 
         <div class="toolbar">
-            <input type="text" placeholder="Search by Student/Employee Name or ID..." class="search-input">
+            <!-- Added id="searchInput" -->
+            <input type="text" id="searchInput" placeholder="Search by Student/Employee Name or ID..." class="search-input">
         </div>
 
         <div class="table-container">
-            <table class="logs-table">
+            <!-- Added id="logsTable" -->
+            <table class="logs-table" id="logsTable">
                 <thead>
                     <tr>
                         <th>DATE & TIME</th>
@@ -107,7 +109,8 @@
                                 ? '21-0001-' . str_pad($log['patient_id'], 3, '0', STR_PAD_LEFT) 
                                 : 'EMP-' . str_pad($log['patient_id'], 4, '0', STR_PAD_LEFT);
                         ?>
-                            <tr>
+                            <!-- Added class="data-row" -->
+                            <tr class="data-row">
                                 <td class="text-date"><?php echo $formattedDate; ?></td>
                                 
                                 <td>
@@ -151,5 +154,29 @@
         </div>
     </main>
 
+    <!-- REAL-TIME SEARCH SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const tableRows = document.querySelectorAll('#logsTable tbody tr.data-row');
+
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+
+                tableRows.forEach(row => {
+                    // Grab the text from the "Patient Details" column (index 1)
+                    // This contains both the First/Last Name and the generated ID
+                    const patientDetails = row.cells[1].textContent.toLowerCase();
+
+                    // If the search term is found anywhere in the name or ID, show the row
+                    if (patientDetails.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
