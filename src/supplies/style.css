@@ -41,12 +41,17 @@
 
 .category-select {
     padding: 12px;
+    padding-right: 30px; /* Add space for dropdown arrow */
     border: 1px solid #d1d5db;
     border-radius: 6px;
     font-size: 14px;
     min-width: 200px;
     outline: none;
     background-color: white;
+    appearance: none; /* Optional: removes default arrow to customize */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
 }
 
 /* --- 3. Supplies Table --- */
