@@ -12,6 +12,7 @@
     <nav class="nav-links">
         <a href="../dashboard/index.php" class="<?= ($current_folder == 'dashboard') ? 'active' : '' ?>">Dashboard</a>
         <a href="../supplies/index.php" class="<?= ($current_folder == 'supplies') ? 'active' : '' ?>">Supplies</a>
+        <a href="../suppliers/index.php" class="<?= ($current_folder == 'suppliers') ? 'active' : '' ?>">Suppliers</a>
         <a href="../logs/index.php" class="<?= ($current_folder == 'logs') ? 'active' : '' ?>">Logs</a>
         <a href="../login/index.php" class="logout-btn">Logout</a>
     </nav>

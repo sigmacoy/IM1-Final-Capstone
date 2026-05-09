@@ -1,3 +1,4 @@
+<!-- supplies/index.php -->
 <?php
     session_start();
 

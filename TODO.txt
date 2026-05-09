@@ -6,3 +6,6 @@
 4. search look up of logs
 5. UI of current inventory
 6. login password was not hash will implement it later
+
+## Macoy:
+1. Implement Supplier

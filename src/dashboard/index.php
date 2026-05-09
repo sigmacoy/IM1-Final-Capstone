@@ -1,3 +1,4 @@
+<!-- dashboard/index.php -->
 <?php
     session_start();
 

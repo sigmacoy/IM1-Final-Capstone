@@ -1,3 +1,4 @@
+<!-- connection/connection.php -->
 <?php
 // Default XAMPP database credentials
 $host = "localhost";
@@ -13,5 +14,5 @@ if ($conn->connect_error) {
     die("Database Connection Failed: " . $conn->connect_error);
 } 
 
-echo "Connected successfully to the clinic database!";
+// echo "Connected successfully to the clinic database!";
 ?>
