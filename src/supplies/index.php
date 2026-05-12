@@ -42,10 +42,13 @@
                 $stmtMed->execute([$medName, $category, $reorderLvl]);
                 $medicineId = $pdo->lastInsertId();
             }
+        
+            // Generate unique batch number (e.g., BATCH-20241201-001)
+            $batchNumber = 'BATCH-' . date('Ymd') . '-' . rand(100, 999);
 
             // Insert physical box
-            $stmtBatch = $pdo->prepare("INSERT INTO MedicineBatch (medicine_id, supplier_id, quantity_in_stock, expiry_date) VALUES (?, ?, ?, ?)");
-            $stmtBatch->execute([$medicineId, $supplierId, $quantity, $expiryDate]);
+            $stmtBatch = $pdo->prepare("INSERT INTO MedicineBatch (medicine_id, supplier_id, batch_number, quantity_in_stock, expiry_date, date_received) VALUES (?, ?, ?, ?, ?, CURDATE())");
+            $stmtBatch->execute([$medicineId, $supplierId, $batchNumber, $quantity, $expiryDate]);
 
             $pdo->commit();
             $message = "<div class='alert-success'>Successfully added " . number_format($quantity) . " units of " . htmlspecialchars($medName) . ".</div>";
