@@ -4,4 +4,6 @@
 2. manual add remove sa supplies 
 3. in dispensation, admin can add the school ID of the patient...
 4. in patient table, add school_id field varchar 20 not null
-5. 
+5. hash the user password. (make sure the admin can just input 123 and it still will work...)
+6. in the main.php implement a register user sa table User, (implement here the hash problem)
+7. 
