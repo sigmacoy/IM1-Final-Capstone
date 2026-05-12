@@ -111,6 +111,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 // ==============================
+// DELETE SUPPLIER
+// ==============================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_supplier') {
+    $supplierId = $_POST['supplier_id'];
+    
+    $conn->begin_transaction();
+    
+    try {
+        // First check if supplier has any medicine batches
+        $stmtCheck = $conn->prepare("SELECT COUNT(*) FROM MedicineBatch WHERE supplier_id = ?");
+        $stmtCheck->bind_param("i", $supplierId);
+        $stmtCheck->execute();
+        $stmtCheck->bind_result($batchCount);
+        $stmtCheck->fetch();
+        $stmtCheck->close();
+        
+        if ($batchCount > 0) {
+            $message = "<div class='alert-error'>Cannot delete supplier because they have $batchCount medicine batch(es) in inventory.</div>";
+            $conn->rollback();
+        } else {
+            // Delete contacts first (foreign key constraint)
+            $stmtDeleteContacts = $conn->prepare("DELETE FROM SupplierContactNo WHERE supplier_id = ?");
+            $stmtDeleteContacts->bind_param("i", $supplierId);
+            $stmtDeleteContacts->execute();
+            $stmtDeleteContacts->close();
+            
+            // Delete the supplier
+            $stmtDeleteSupplier = $conn->prepare("DELETE FROM Supplier WHERE supplier_id = ?");
+            $stmtDeleteSupplier->bind_param("i", $supplierId);
+            $stmtDeleteSupplier->execute();
+            $stmtDeleteSupplier->close();
+            
+            $conn->commit();
+            $message = "<div class='alert-success'>Supplier deleted successfully.</div>";
+        }
+        
+    } catch (Exception $e) {
+        $conn->rollback();
+        $message = "<div class='alert-error'>Error deleting supplier: " . htmlspecialchars($e->getMessage()) . "</div>";
+    }
+}
+
+// ==============================
 // FETCH SUPPLIERS (with multiple contacts)
 // ==============================
 $sql = "

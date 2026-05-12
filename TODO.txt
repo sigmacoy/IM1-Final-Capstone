@@ -10,3 +10,4 @@
 8. In logs index.php, data-rows should able to accomodate more than 1 medicine. - Arcel
 If two data rows, have the same dispensation_id, Everything should be merged and centered, except "medicine" and "qty".
 9. In Dashboard, Today's Activity Logs, Everything should be merged and centered, except "Item Dispensed". - Arcel
+10. Display batch number, in Supplies tab. - Arcel
