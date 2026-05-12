@@ -193,7 +193,7 @@
                             $stockClass = 'text-danger';
                             $rowClass = 'row-danger'; 
                             $statusHtml = "<span class='badge low-stock'>Low Stock</span>";
-                        } elseif ($daysUntilExpiry <= 60) {
+                        } elseif ($daysUntilExpiry <= 60) { // Upcoming days count to know that it is Expiring soon
                             $statusHtml = "<span class='badge expiring'>Expiring Soon</span>";
                         } else {
                             $statusHtml = "<span class='badge in-stock'>In Stock</span>";
