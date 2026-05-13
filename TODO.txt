@@ -1,20 +1,15 @@
 TODO:
 
 Macoy:
-1. rename expiring soon in dashboard into # of medicine batch expiring soon 
-    If two data rows, have the same dispensation_id, Everything should be merged and centered, except "medicine" and "qty".
-2. Center MEDICINE and QTY 1 input
 
--------------------------------------------------------
+
+
+Arcel:
+
+
+
 Changes:
 
-1. email changed to admin@cit.edu NOT citu.edu
-2. properly hashed value of admin user
-3. fixed the bug of random "Invalid Credentials" even tho nothings wrong on modal of login-splash
-4. added unique constraint to prevent duplicate mobile numbers for the same supplier
-5. Fixed the contact numbers duplicate issues in Contact Number in Suppliers TAB
-6. Centerized all column labels of Supplies, Suppliers, Logs
-7. Moved supplier column in Supplies tab more to the left
-8. Changed the Expiry-Date format text-based not number.
-9. Removed "(Admin)" sa Authorized by in Logs TAB 
-10. Updated citu_clinic_inventory.sql
+1. In Dashboard tab, labels renamed into Low Stock Batches AND Batches Expiring Soon (60 Days)
+2. The width of yellow box is now fixed-size
+3. Center MEDICINE and QTY 1 input

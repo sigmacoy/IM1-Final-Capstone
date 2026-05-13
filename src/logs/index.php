@@ -147,15 +147,21 @@
                                     </span>
                                 </td>
                                 
-                                <td class="medicine-text">
+                                <!-- MEDICINE COLUMN -->
+                                <td class="medicine-column">
                                     <?php foreach ($log['items'] as $medName => $qty): ?>
-                                        <div style="margin-bottom: 5px;"><?php echo htmlspecialchars($medName); ?></div>
+                                        <div class="med-row">
+                                            <?php echo htmlspecialchars($medName); ?>
+                                        </div>
                                     <?php endforeach; ?>
                                 </td>
-                                
-                                <td class="qty-bold">
+
+                                <!-- QTY COLUMN -->
+                                <td class="qty-column">
                                     <?php foreach ($log['items'] as $medName => $qty): ?>
-                                        <div style="margin-bottom: 5px;"><?php echo number_format($qty); ?></div>
+                                        <div class="qty-row">
+                                            <?php echo number_format($qty); ?>
+                                        </div>
                                     <?php endforeach; ?>
                                 </td>
                                 
@@ -164,6 +170,8 @@
                                         <?php echo htmlspecialchars($log['purpose']); ?>
                                     </div>
                                 </td>
+                                   
+                                
                                 
                                 <td>
                                     <span class="admin-name">

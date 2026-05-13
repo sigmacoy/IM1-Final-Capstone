@@ -3,13 +3,13 @@
 /* --- Page Layout --- */
 .logs-container {
     padding: 40px;
-    max-width: 1300px; /* Slightly wider to accommodate many columns */
+    max-width: 1300px;
     margin: 0 auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .page-title {
-    color: #7b2c31; /* CIT Maroon */
+    color: #7b2c31;
     font-size: 32px;
     margin-bottom: 8px;
     font-weight: 700;
@@ -45,95 +45,57 @@
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    overflow-x: auto; /* Enable horizontal scroll on mobile */
+    overflow-x: auto;
 }
 
-/* --- Table Layout & Spacing --- */
+/* --- Table Layout --- */
 .logs-table {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
 }
 
-/* Header Styling - ALL COLUMN LABELS CENTERED */
+/* --- Table Headers --- */
 .logs-table th {
     padding: 20px 24px;
-    color: #6b7280; /* Muted gray from photo */
+    color: #6b7280;
     font-weight: 700;
-    font-size: 12px; /* Smaller header text like in photo */
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     background-color: #fafafa;
     border-bottom: 2px solid #f3f4f6;
-    text-align: center; /* CENTER ALL COLUMN LABELS */
+    text-align: center;
     vertical-align: middle;
 }
 
-/* Row & Cell Spacing */
+/* --- Table Cells --- */
 .logs-table td {
-    padding: 24px; /* Creates that tall, spacious row from the photo */
-    vertical-align: middle; /* Keeps everything centered relative to the notes box */
-    border-bottom: 1px solid #f9fafb;
+    padding: 24px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+    text-align: center;
     color: #374151;
     font-size: 14px;
 }
 
-/* Remove bottom border on last item */
 .logs-table tbody tr:last-child td {
     border-bottom: none;
 }
 
-/* --- Specific Column Styling --- */
-
-/* Column 1: Date & Time - Center aligned */
-.logs-table td:nth-child(1) {
-    text-align: center;
-}
-
-/* Column 2: PATIENT DETAILS - Center aligned */
-.logs-table td:nth-child(2) {
-    text-align: center;
-}
-
-/* Column 3: TYPE - Center aligned */
-.logs-table td:nth-child(3) {
-    text-align: center;
-}
-
-/* Column 4: MEDICINE - Center aligned */
-.logs-table td:nth-child(4) {
-    text-align: center;
-}
-
-/* Column 5: QTY - Center aligned */
-.logs-table td:nth-child(5) {
-    text-align: center;
-}
-
-/* Column 6: DISPENSATION NOTES - Center aligned */
-.logs-table td:nth-child(6) {
-    text-align: center;
-}
-
-/* Column 7: AUTHORIZED BY - Center aligned */
-.logs-table td:nth-child(7) {
-    text-align: center;
-}
-
-/* Column: Date & Time */
+/* --- Date Column --- */
 .text-date {
     color: #9ca3af;
     font-size: 13px;
     white-space: nowrap;
 }
 
-/* Column: Patient Details */
+/* --- Patient Details --- */
 .patient-name {
     display: block;
     font-weight: 700;
     font-size: 15px;
     color: #111827;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
 
 .patient-id {
@@ -143,44 +105,93 @@
     font-weight: 500;
 }
 
-/* Column: Medicine */
-.medicine-text {
-    color: #4b5563;
-    font-size: 14px;
+/* =========================
+   MEDICINE + QTY
+========================= */
+
+.medicine-column,
+.qty-column {
+    vertical-align: middle;
 }
 
-/* Column: QTY */
-.qty-bold {
-    font-size: 18px; /* Larger bold number */
-    font-weight: 800;
-    color: #000;
+.med-row,
+.qty-row {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
-/* Column: Dispensation Notes (Yellow Box) */
+.med-row:last-child,
+.qty-row:last-child {
+    margin-bottom: 0;
+}
+
+.med-row {
+    justify-content: flex-start;
+    text-align: left;
+    font-weight: 500;
+}
+
+.qty-row {
+    font-weight: 700;
+}
+
+/* =========================
+   DISPENSATION NOTES
+========================= */
+
+.logs-table td:nth-child(6) {
+    vertical-align: middle;
+}
+
 .dispensation-notes {
-    background-color: #fefce8; /* Light yellow background */
-    border-left: 4px solid #fbbf24; /* Thick yellow left border */
+    background-color: #fefce8;
+    border-left: 4px solid #fbbf24;
     padding: 14px 18px;
     font-size: 13px;
     color: #4b5563;
-    max-width: 280px;
+    width: 80%;
     line-height: 1.5;
     border-radius: 2px;
-    display: inline-block; /* Makes the box wrap content naturally */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto;
+    min-height: 60px;
+    text-align: center;
 }
 
-/* Column: Authorized By */
+/* =========================
+   AUTHORIZED BY
+========================= */
+
+.logs-table td:nth-child(7) {
+    vertical-align: middle;
+    text-align: center;
+}
+
 .admin-name {
-    color: #7b2c31; /* CIT Maroon */
+    color: #7b2c31;
     font-weight: 700;
     font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    min-height: 60px;
 }
 
 .admin-label {
     color: #9ca3af;
     font-size: 12px;
     font-weight: 400;
-    margin-left: 2px;
+    display: block;
 }
 
 /* --- Badges --- */
@@ -203,29 +214,29 @@
     color: #9333ea;
 }
 
-/* --- Hover effect on rows --- */
+/* --- Hover Effect --- */
 .logs-table tbody tr:hover {
     background-color: #f9fafb;
     transition: background-color 0.2s ease;
 }
 
-/* --- Responsive Design --- */
+/* --- Responsive --- */
 @media (max-width: 768px) {
+
     .logs-container {
         padding: 20px;
     }
-    
+
     .search-input {
         width: 100%;
     }
-    
+
     .logs-table th,
     .logs-table td {
         padding: 15px;
     }
-    
+
     .dispensation-notes {
-        max-width: 200px;
-        padding: 10px 12px;
+        width: 100%;
     }
 }
