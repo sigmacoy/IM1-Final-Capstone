@@ -67,21 +67,6 @@ INSERT INTO `dispensationitem` (`item_id`, `dispense_id`, `batch_id`, `quantity`
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `employee`
---
-
-CREATE TABLE `employee` (
-  `patient_id` int(11) NOT NULL,
-  `rank` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `employee`
---
-
-INSERT INTO `employee` (`patient_id`, `rank`) VALUES
-(3, 'University Physician');
 
 -- --------------------------------------------------------
 
@@ -140,8 +125,7 @@ CREATE TABLE `patient` (
   `patient_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `gender` enum('Male','Female','Other') NOT NULL,
+  `school_id` varchar(100) DEFAULT NULL,
   `patient_type` enum('Student','Employee') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -149,30 +133,13 @@ CREATE TABLE `patient` (
 -- Dumping data for table `patient`
 --
 
-INSERT INTO `patient` (`patient_id`, `first_name`, `last_name`, `email`, `gender`, `patient_type`) VALUES
-(1, 'Juan', 'Dela Cruz', 'juan.delacruz@email.com', 'Male', 'Student'),
-(2, 'Maria', 'Santos', 'maria.santos@email.com', 'Female', 'Student'),
-(3, 'Dr. Jose', 'Rizal', 'jose.rizal@email.com', 'Male', 'Employee');
+INSERT INTO `patient` (`patient_id`, `first_name`, `last_name`, `patient_type`) VALUES
+(1, 'Juan', 'Dela Cruz', 'Student'),
+(2, 'Maria', 'Santos','Student'),
+(3, 'Dr. Jose', 'Rizal', 'Employee');
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `student`
---
-
-CREATE TABLE `student` (
-  `patient_id` int(11) NOT NULL,
-  `program` varchar(100) NOT NULL,
-  `year_level` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `student`
---
-
-INSERT INTO `student` (`patient_id`, `program`, `year_level`) VALUES
-(1, 'BS Computer Science', 3),
-(2, 'BS Information Technology', 2);
 
 -- --------------------------------------------------------
 
@@ -257,11 +224,7 @@ ALTER TABLE `dispensationitem`
   ADD KEY `dispense_id` (`dispense_id`),
   ADD KEY `batch_id` (`batch_id`);
 
---
--- Indexes for table `employee`
---
-ALTER TABLE `employee`
-  ADD PRIMARY KEY (`patient_id`);
+
 
 --
 -- Indexes for table `medicine`
@@ -282,13 +245,9 @@ ALTER TABLE `medicinebatch`
 --
 ALTER TABLE `patient`
   ADD PRIMARY KEY (`patient_id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `schooo_id` (`school_id`);
 
---
--- Indexes for table `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`patient_id`);
+
 
 --
 -- Indexes for table `supplier`
@@ -381,11 +340,6 @@ ALTER TABLE `dispensationitem`
   ADD CONSTRAINT `dispensationitem_ibfk_1` FOREIGN KEY (`dispense_id`) REFERENCES `dispensation` (`dispense_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `dispensationitem_ibfk_2` FOREIGN KEY (`batch_id`) REFERENCES `medicinebatch` (`batch_id`);
 
---
--- Constraints for table `employee`
---
-ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `medicinebatch`
@@ -394,11 +348,7 @@ ALTER TABLE `medicinebatch`
   ADD CONSTRAINT `medicinebatch_ibfk_1` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`medicine_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `medicinebatch_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`);
 
---
--- Constraints for table `student`
---
-ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON DELETE CASCADE;
+
 
 --
 -- Constraints for table `suppliercontactno`

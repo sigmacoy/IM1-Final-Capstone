@@ -311,3 +311,34 @@
     border-left: 4px solid #d93025; 
     font-weight: bold; 
 }
+
+/* --- Scrollable Table Container --- */
+.table-scroll-container {
+    max-height: 350px; /* Adjust this height if you want it taller or shorter */
+    overflow-y: auto;
+    border-bottom: 1px solid #eee;
+}
+
+/* Make the header sticky so it stays visible while scrolling down */
+.table-scroll-container thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f9fafb; /* Matches your header background */
+    z-index: 1;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* Tiny shadow for depth */
+}
+
+/* Customize the scrollbar to make it look clean */
+.table-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+.table-scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+.table-scroll-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1; 
+    border-radius: 4px;
+}
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8; 
+}

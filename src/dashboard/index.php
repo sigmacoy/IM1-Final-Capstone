@@ -1,4 +1,3 @@
-<!-- dashboard/index.php -->
 <?php
     session_start();
 
@@ -12,7 +11,7 @@
     $userId = $_SESSION['user_id']; 
 
     $totalStock = 0; $lowStock = 0; $expiringSoon = 0;
-    $inventorySnapshot = []; $recentLogs = []; $availableMedicines = [];
+    $inventorySnapshot = []; $groupedRecentLogs = []; $availableMedicines = [];
     $message = '';
 
     try {
@@ -24,6 +23,7 @@
             try {
                 $pdo->beginTransaction();
 
+                $schoolId = trim($_POST['school_id']); // <-- ADDED THIS
                 $pFirst = trim($_POST['patient_first']);
                 $pLast = trim($_POST['patient_last']);
                 $pType = $_POST['patient_type'];
@@ -31,16 +31,17 @@
                 $medicineIds = $_POST['medicine_id']; 
                 $quantities = $_POST['quantity'];     
 
-                // 1. Check if patient exists by First Name, Last Name, and Type
-                $stmtPat = $pdo->prepare("SELECT patient_id FROM Patient WHERE first_name = ? AND last_name = ? AND patient_type = ?");
-                $stmtPat->execute([$pFirst, $pLast, $pType]);
+                // 1. Check if patient exists by their unique School ID
+                $stmtPat = $pdo->prepare("SELECT patient_id FROM Patient WHERE school_id = ?");
+                $stmtPat->execute([$schoolId]);
                 $patient = $stmtPat->fetch();
 
                 if ($patient) {
                     $patientId = $patient['patient_id'];
                 } else {
-                    $stmtNewPat = $pdo->prepare("INSERT INTO Patient (first_name, last_name, patient_type) VALUES (?, ?, ?)");
-                    $stmtNewPat->execute([$pFirst, $pLast, $pType]);
+                    // Create new patient with the school_id included
+                    $stmtNewPat = $pdo->prepare("INSERT INTO Patient (school_id, first_name, last_name, patient_type) VALUES (?, ?, ?, ?)");
+                    $stmtNewPat->execute([$schoolId, $pFirst, $pLast, $pType]);
                     $patientId = $pdo->lastInsertId();
                 }
 
@@ -56,7 +57,7 @@
 
                     if ($qtyNeeded <= 0) continue;
 
-                    // Fetch batches with stock, ordered by closest expiry date! (IGNORES EXPIRED STOCK)
+                    // Fetch batches with stock, ordered by closest expiry date
                     $stmtBatches = $pdo->prepare("
                         SELECT batch_id, quantity_in_stock 
                         FROM MedicineBatch 
@@ -117,16 +118,45 @@
         $inventorySnapshot = $pdo->query("
             SELECT m.name AS medicine_name, IFNULL(SUM(mb.quantity_in_stock), 0) AS total_stock, m.reorder_level
             FROM Medicine m LEFT JOIN MedicineBatch mb ON m.medicine_id = mb.medicine_id
-            GROUP BY m.medicine_id, m.name, m.reorder_level ORDER BY total_stock ASC LIMIT 6
+            GROUP BY m.medicine_id, m.name, m.reorder_level 
+            HAVING total_stock > 0 
+            ORDER BY total_stock ASC LIMIT 6
         ")->fetchAll(PDO::FETCH_ASSOC);
 
-        // Fetch Recent Logs (ONLY CURRENT DATE)
-        $recentLogs = $pdo->query("
-            SELECT d.dispense_date, p.first_name AS patient_first, p.last_name AS patient_last, m.name AS medicine_name, di.quantity
-            FROM Dispensation d JOIN DispensationItem di ON d.dispense_id = di.dispense_id JOIN Patient p ON d.patient_id = p.patient_id
-            JOIN MedicineBatch mb ON di.batch_id = mb.batch_id JOIN Medicine m ON mb.medicine_id = m.medicine_id
-            WHERE DATE(d.dispense_date) = CURDATE() ORDER BY d.dispense_date DESC LIMIT 5
-        ")->fetchAll(PDO::FETCH_ASSOC);
+        // --- FETCH RECENT LOGS & MERGE MULTIPLE ITEMS ---
+        $stmtRecent = $pdo->query("
+            SELECT d.dispense_id, d.dispense_date, p.school_id, p.first_name AS patient_first, p.last_name AS patient_last, m.name AS medicine_name, di.quantity
+            FROM Dispensation d 
+            JOIN DispensationItem di ON d.dispense_id = di.dispense_id 
+            JOIN Patient p ON d.patient_id = p.patient_id
+            JOIN MedicineBatch mb ON di.batch_id = mb.batch_id 
+            JOIN Medicine m ON mb.medicine_id = m.medicine_id
+            WHERE DATE(d.dispense_date) = CURDATE() 
+            ORDER BY d.dispense_date DESC
+        ");
+        $rawRecentLogs = $stmtRecent->fetchAll(PDO::FETCH_ASSOC);
+
+        // Group by dispense_id
+        $groupedRecentLogs = [];
+        foreach ($rawRecentLogs as $row) {
+            $id = $row['dispense_id'];
+            if (!isset($groupedRecentLogs[$id])) {
+                $groupedRecentLogs[$id] = [
+                    'dispense_date' => $row['dispense_date'],
+                    'school_id'     => $row['school_id'], // <-- ADDED THIS
+                    'patient_first' => $row['patient_first'],
+                    'patient_last'  => $row['patient_last'],
+                    'items'         => []
+                ];
+            }
+            $medName = $row['medicine_name'];
+            if (!isset($groupedRecentLogs[$id]['items'][$medName])) {
+                $groupedRecentLogs[$id]['items'][$medName] = 0;
+            }
+            $groupedRecentLogs[$id]['items'][$medName] += $row['quantity'];
+        }
+        
+        $groupedRecentLogs = array_slice($groupedRecentLogs, 0, 5);
 
         // --- FETCH MEDICINES FOR DROPDOWN (ONLY UNEXPIRED STOCK) ---
         $availableMedicines = $pdo->query("
@@ -181,7 +211,7 @@
     <div class="dashboard-grid">
         <div class="card current-inventory">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 class="section-title" style="margin: 0;">Current Inventory Snapshot</h3>
+                <h3 class="section-title" style="margin: 0;">Current Inventory</h3>
                 <button class="btn-dispense" onclick="openModal()">+ New Dispensation</button>
             </div>
             <hr class="divider">
@@ -209,22 +239,44 @@
         <div class="card recent-logs">
             <h3 class="section-title">Today's Activity Logs</h3>
             <hr class="divider">
-            <table class="dashboard-table">
-                <thead><tr><th>Time</th><th>Patient</th><th>Item Dispensed</th></tr></thead>
-                <tbody>
-                    <?php if (empty($recentLogs)): ?>
-                        <tr><td colspan="3" style="text-align: center; padding: 15px; color: #6b7280;">No dispensations recorded today.</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($recentLogs as $log): ?>
-                            <tr>
-                                <td style="font-size: 0.9em; color: #6b7280;"><?php echo date('g:i A', strtotime($log['dispense_date'])); ?></td>
-                                <td><?php echo htmlspecialchars($log['patient_first'] . ' ' . $log['patient_last']); ?></td>
-                                <td><strong><?php echo htmlspecialchars($log['medicine_name']); ?></strong> <span class="text-danger">(-<?php echo $log['quantity']; ?>)</span></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+            
+            <div class="table-scroll-container">
+                <table class="dashboard-table" style="margin-top: 0;">
+                    <thead>
+                        <tr><th>Time</th><th>Patient</th><th>Item Dispensed</th></tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($groupedRecentLogs)): ?>
+                            <tr><td colspan="3" style="text-align: center; padding: 15px; color: #6b7280;">No dispensations recorded today.</td></tr>
+                        <?php else: ?>
+                            <?php foreach ($groupedRecentLogs as $log): ?>
+                                <tr>
+                                    <td style="font-size: 0.9em; color: #6b7280; vertical-align: top; padding-top: 15px;">
+                                        <?php echo date('g:i A', strtotime($log['dispense_date'])); ?>
+                                    </td>
+                                    <td style="vertical-align: top; padding-top: 15px;">
+                                        <div style="font-weight: bold; color: #374151;">
+                                            <?php echo htmlspecialchars($log['patient_first'] . ' ' . $log['patient_last']); ?>
+                                        </div>
+                                        <!-- DISPLAYING THE REAL SCHOOL ID IN THE UI -->
+                                        <div style="font-size: 0.8em; color: #9ca3af;">
+                                            ID: <?php echo htmlspecialchars($log['school_id']); ?>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: top; padding-top: 15px;">
+                                        <?php foreach ($log['items'] as $medName => $qty): ?>
+                                            <div style="margin-bottom: 8px; font-size: 0.95em;">
+                                                <strong><?php echo htmlspecialchars($medName); ?></strong> 
+                                                <span class="text-danger">(-<?php echo number_format($qty); ?>)</span>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </main>
@@ -242,6 +294,12 @@
             
             <h3 style="font-size: 15px; color: #7b2c31; margin-bottom: 10px;">1. Patient Details</h3>
             <div class="form-grid" style="margin-bottom: 20px;">
+                <!-- ADDED SCHOOL ID FIELD HERE -->
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label>School / Employee ID</label>
+                    <input type="text" name="school_id" required placeholder="e.g. 21-0001-123">
+                </div>
+
                 <div class="input-group">
                     <label>First Name</label>
                     <input type="text" name="patient_first" required placeholder="e.g. John">
