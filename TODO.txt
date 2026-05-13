@@ -1,14 +1,14 @@
 TODO:
 
+Macoy:
 1. removed all dispensation
-2. manual add remove sa supplies - Arcel
-3. in Dispensation Tab, admin can add the school ID of the patient. - Macoy
-4. Add school_id to the Patient table (UPDATE), Fix the Display of school id in Logs, Update DB sql - Arcel
-5. hash the user password. (make sure the admin can just input 123 and it still will work...) - Macoy
-6. in the main.php implement a register user sa table User, (implement here the hash problem) - Macoy
-7. rename expiring soon in dashboard into # of medicine batch expiring soon - Macoy
-8. In logs index.php, data-rows should able to accomodate more than 1 medicine. - Arcel
-If two data rows, have the same dispensation_id, Everything should be merged and centered, except "medicine" and "qty".
-9. In Dashboard, Today's Activity Logs, Everything should be merged and centered, except "Item Dispensed". - Arcel
-10. Display batch number, in Supplies tab. - Arcel
-11. Update ERD, update Metadata of Docx - Macoy
+2. in Dispensation Tab, admin can add the school ID of the patient. 
+3. hash the user password. (make sure the admin can just input 123 and it still will work...) 
+4. in the main.php implement a register user sa table User, (implement here the hash problem) 
+5. rename expiring soon in dashboard into # of medicine batch expiring soon 
+    If two data rows, have the same dispensation_id, Everything should be merged and centered, except "medicine" and "qty".
+6. Update ERD, update Metadata of Docx 
+7. Center MEDICINE and QTY 1 input
+8. Fix the contact numbers duplicate issues in Contact Number
+
+-------------------------------------------------------
