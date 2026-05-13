@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2026 at 10:08 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 13, 2026 at 11:02 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -67,9 +67,6 @@ INSERT INTO `dispensationitem` (`item_id`, `dispense_id`, `batch_id`, `quantity`
 
 -- --------------------------------------------------------
 
-
--- --------------------------------------------------------
-
 --
 -- Table structure for table `medicine`
 --
@@ -113,7 +110,7 @@ CREATE TABLE `medicinebatch` (
 INSERT INTO `medicinebatch` (`batch_id`, `medicine_id`, `supplier_id`, `batch_number`, `quantity_in_stock`, `expiry_date`, `date_received`) VALUES
 (1, 1, 1, 'LOT-A123', 500, '2027-12-01', '2026-02-10'),
 (2, 3, 1, 'LOT-B456', 200, '2028-01-20', '2026-02-10'),
-(3, 2, 2, 'LOT-C789', 150, '2026-06-15', '2025-12-01');
+(3, 2, 2, 'LOT-C789', 149, '2026-06-15', '2025-12-01');
 
 -- --------------------------------------------------------
 
@@ -133,13 +130,10 @@ CREATE TABLE `patient` (
 -- Dumping data for table `patient`
 --
 
-INSERT INTO `patient` (`patient_id`, `first_name`, `last_name`, `patient_type`) VALUES
-(1, 'Juan', 'Dela Cruz', 'Student'),
-(2, 'Maria', 'Santos','Student'),
-(3, 'Dr. Jose', 'Rizal', 'Employee');
-
--- --------------------------------------------------------
-
+INSERT INTO `patient` (`patient_id`, `first_name`, `last_name`, `school_id`, `patient_type`) VALUES
+(1, 'Juan', 'Dela Cruz', '22-1234-567', 'Student'),
+(2, 'Maria', 'Santos', '22-2345-678', 'Student'),
+(3, 'Dr. Jose', 'Rizal', '23-1235-612', 'Employee');
 
 -- --------------------------------------------------------
 
@@ -179,9 +173,12 @@ CREATE TABLE `suppliercontactno` (
 --
 
 INSERT INTO `suppliercontactno` (`id`, `supplier_id`, `mobile_number`) VALUES
-(1, 1, '09171234567'),
-(2, 1, '0322345678'),
-(3, 2, '09189876543');
+(30, 1, '09121262342'),
+(31, 1, '09121262343'),
+(28, 2, '09121262341'),
+(29, 2, '09125616347'),
+(27, 2, '09151231123'),
+(26, 2, '09189876542');
 
 -- --------------------------------------------------------
 
@@ -202,7 +199,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'John Arcel', 'Sabagkit', 'admin@citu.edu', '123');
+(1, 'John Arcel', 'Sabagkit', 'admin@cit.edu', '$2y$12$.PoKjJzSabLQ.L2p1vYDPextVwSJTkygcJAIZLe3qS/ZnxwLOsNva');
 
 --
 -- Indexes for dumped tables
@@ -223,8 +220,6 @@ ALTER TABLE `dispensationitem`
   ADD PRIMARY KEY (`item_id`),
   ADD KEY `dispense_id` (`dispense_id`),
   ADD KEY `batch_id` (`batch_id`);
-
-
 
 --
 -- Indexes for table `medicine`
@@ -247,8 +242,6 @@ ALTER TABLE `patient`
   ADD PRIMARY KEY (`patient_id`),
   ADD UNIQUE KEY `schooo_id` (`school_id`);
 
-
-
 --
 -- Indexes for table `supplier`
 --
@@ -261,6 +254,7 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `suppliercontactno`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_supplier_contact` (`supplier_id`,`mobile_number`),
   ADD KEY `supplier_id` (`supplier_id`);
 
 --
@@ -278,13 +272,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `dispensation`
 --
 ALTER TABLE `dispensation`
-  MODIFY `dispense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `dispense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `dispensationitem`
 --
 ALTER TABLE `dispensationitem`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `medicine`
@@ -302,25 +296,25 @@ ALTER TABLE `medicinebatch`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `suppliercontactno`
 --
 ALTER TABLE `suppliercontactno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -340,15 +334,12 @@ ALTER TABLE `dispensationitem`
   ADD CONSTRAINT `dispensationitem_ibfk_1` FOREIGN KEY (`dispense_id`) REFERENCES `dispensation` (`dispense_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `dispensationitem_ibfk_2` FOREIGN KEY (`batch_id`) REFERENCES `medicinebatch` (`batch_id`);
 
-
 --
 -- Constraints for table `medicinebatch`
 --
 ALTER TABLE `medicinebatch`
   ADD CONSTRAINT `medicinebatch_ibfk_1` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`medicine_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `medicinebatch_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`);
-
-
 
 --
 -- Constraints for table `suppliercontactno`

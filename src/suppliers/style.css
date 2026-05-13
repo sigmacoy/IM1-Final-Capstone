@@ -86,37 +86,32 @@
     font-size: 13px;
     text-transform: uppercase;
     padding: 18px 20px;
-    text-align: left;
-}
-
-/* Center the "Total Medicine Batches" header */
-.suppliers-table th:nth-child(3) {
-    text-align: center;
-}
-
-/* Center the "Actions" header */
-.suppliers-table th:nth-child(4) {
-    text-align: center;
+    text-align: center; /* CHANGE THIS from 'left' to 'center' */
 }
 
 /* Table cell styling */
 .suppliers-table td {
     padding: 18px 20px;
-    border-bottom: 1px solid #f3f4f6; /* Gray row separator */
+    border-bottom: 1px solid #f3f4f6;
     vertical-align: middle;
 }
 
-/* Left align Supplier Name column */
+/* Center align ALL table cells by default */
+.suppliers-table td {
+    text-align: center;
+}
+
+/* Override: Keep Supplier Name column centered (matching the header) */
 .suppliers-table td:nth-child(1) {
-    text-align: left;
+    text-align: center;
 }
 
-/* Left align Contact Numbers column */
+/* Override: Keep Contact Numbers column centered */
 .suppliers-table td:nth-child(2) {
-    text-align: left;
+    text-align: center;
 }
 
-/* Center the Total Medicine Batches numbers */
+/* Center the Total Medicine Batches numbers (already centered) */
 .suppliers-table td:nth-child(3) {
     text-align: center;
 }

@@ -49,7 +49,7 @@
     min-width: 200px;
     outline: none;
     background-color: white;
-    appearance: none; /* Optional: removes default arrow to customize */
+    appearance: none; /* Removes default arrow to customize */
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -60,7 +60,7 @@
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    overflow: hidden;
+    overflow-x: auto; /* Enable horizontal scroll on mobile */
 }
 
 .supplies-table {
@@ -69,7 +69,20 @@
     text-align: left;
 }
 
-.supplies-table th, 
+/* TABLE HEADER STYLES - ALL COLUMN LABELS CENTERED */
+.supplies-table th {
+    background-color: #f9fafb;
+    color: #6b7280;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    text-align: center; /* CENTER ALL COLUMN LABELS */
+    vertical-align: middle;
+}
+
+/* TABLE CELL STYLES */
 .supplies-table td {
     padding: 18px 20px;
     border-bottom: 1px solid #f3f4f6;
@@ -77,14 +90,51 @@
     vertical-align: middle;
 }
 
-.supplies-table th {
-    background-color: #f9fafb;
-    color: #6b7280;
-    font-size: 0.85em;
-    text-transform: uppercase;
-    font-weight: bold;
+/* Column 1: Medicine Name - Center aligned */
+.supplies-table td:nth-child(1) {
+    text-align: center;
 }
 
+/* Column 2: Batch Number - Center aligned */
+.supplies-table td:nth-child(2) {
+    text-align: center;
+}
+
+/* Column 3: Category - Center aligned */
+.supplies-table td:nth-child(3) {
+    text-align: center;
+}
+
+/* Column 4: Stock Level - Center aligned */
+.supplies-table td:nth-child(4) {
+    text-align: center;
+}
+
+/* Column 5: Reorder Level - Center aligned */
+.supplies-table td:nth-child(5) {
+    text-align: center;
+}
+
+/* Column 6: Supplier - Center aligned */
+.supplies-table td:nth-child(6) {
+    text-align: center;
+}
+
+/* Column 7: Expiry Date - Center aligned */
+.supplies-table th:nth-child(7),
+.supplies-table td:nth-child(7) {
+    min-width: 120px;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Column 8: Status - Center aligned */
+.supplies-table td:nth-child(8) {
+    text-align: center;
+}
+
+/* Hover effect on table rows */
 .supplies-table tbody tr:hover {
     background-color: #f8fafc;
 }
@@ -93,8 +143,15 @@
 .row-danger {
     background-color: #fff5f5; 
 }
+
 .row-danger:hover {
     background-color: #ffebeb !important;
+}
+
+/* Make rows highlight slightly when hovering to indicate they can be clicked */
+.supplies-table tbody tr.hover-row:hover {
+    background-color: #fdf6d9; /* A very light yellow highlight */
+    transition: background-color 0.1s ease-in-out;
 }
 
 /* --- 4. Badges & Status --- */
@@ -104,14 +161,33 @@
     font-size: 0.85em;
     font-weight: bold;
     display: inline-block;
+    white-space: nowrap; /* Prevent badge text from wrapping */
 }
 
-.badge.in-stock { background-color: #e6f4ea; color: #1e8e3e; }
-.badge.low-stock { background-color: #fce8e6; color: #d93025; }
-.badge.expiring { background-color: #fef0d9; color: #b45f06; }
-.badge.expired { background-color: #f1f3f4; color: #5f6368; }
+.badge.in-stock { 
+    background-color: #e6f4ea; 
+    color: #1e8e3e; 
+}
 
-.text-danger { color: #d93025; font-weight: bold; }
+.badge.low-stock { 
+    background-color: #fce8e6; 
+    color: #d93025; 
+}
+
+.badge.expiring { 
+    background-color: #fef0d9; 
+    color: #b45f06; 
+}
+
+.badge.expired { 
+    background-color: #f1f3f4; 
+    color: #5f6368; 
+}
+
+.text-danger { 
+    color: #d93025; 
+    font-weight: bold; 
+}
 
 /* --- 5. Buttons --- */
 .add-btn {
@@ -151,7 +227,10 @@
 /* --- 6. Modal Overlay & Form --- */
 .modal-overlay {
     position: fixed; 
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5); 
     backdrop-filter: blur(3px);
     display: flex; 
@@ -192,14 +271,18 @@
     color: #9ca3af; 
 }
 
-.close-icon:hover { color: #d93025; }
+.close-icon:hover { 
+    color: #d93025; 
+}
 
+/* Form Grid Layout */
 .form-grid { 
     display: grid; 
     grid-template-columns: 1fr 1fr; 
     gap: 15px; 
 }
 
+/* Input Group Styles */
 .input-group { 
     display: flex; 
     flex-direction: column; 
@@ -231,6 +314,7 @@
     box-shadow: 0 0 0 2px rgba(248, 196, 0, 0.2); 
 }
 
+/* Modal Action Buttons */
 .modal-actions { 
     display: flex; 
     justify-content: flex-end; 
@@ -258,9 +342,11 @@
     font-weight: bold; 
 }
 
-.btn-save:hover { background: #5a1e22; }
+.btn-save:hover { 
+    background: #5a1e22; 
+}
 
-/* --- 7. Alerts --- */
+/* --- 7. Alert Messages --- */
 .alert-success { 
     background-color: #e6f4ea; 
     color: #1e8e3e; 
@@ -279,10 +365,4 @@
     margin-bottom: 15px; 
     border-left: 4px solid #d93025; 
     font-weight: bold; 
-}
-
-/* Make rows highlight slightly when hovering to indicate they can be clicked */
-.supplies-table tbody tr.hover-row:hover {
-    background-color: #fdf6d9; /* A very light yellow highlight */
-    transition: background-color 0.1s ease-in-out;
 }
