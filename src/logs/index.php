@@ -7,18 +7,20 @@
         exit;
     }
 
-    $logs = [];
+    $groupedLogs = [];
 
     try {
         // 2. Database Connection
         $pdo = new PDO("mysql:host=127.0.0.1;dbname=citu_clinic_inventory;port=3306", "root", "");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // 3. SQL Query: Fetching joined data to provide full transaction context
+        // 3. SQL Query: Added `p.school_id` to fetch the real ID from the database
         $sql = "
             SELECT 
+                d.dispense_id,
                 d.dispense_date,
                 p.patient_id,
+                p.school_id,  -- ADDED THIS LINE
                 p.first_name AS patient_first,
                 p.last_name AS patient_last,
                 p.patient_type,
@@ -37,10 +39,37 @@
         ";
         
         $stmt = $pdo->query($sql);
-        $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rawLogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 4. Group the flat data by Transaction (dispense_id)
+        foreach ($rawLogs as $row) {
+            $id = $row['dispense_id'];
+            
+            // If we haven't seen this transaction yet, set up the main row data
+            if (!isset($groupedLogs[$id])) {
+                $groupedLogs[$id] = [
+                    'dispense_date' => $row['dispense_date'],
+                    'patient_id' => $row['patient_id'],
+                    'school_id' => $row['school_id'], // ADDED THIS LINE
+                    'patient_first' => $row['patient_first'],
+                    'patient_last' => $row['patient_last'],
+                    'patient_type' => $row['patient_type'],
+                    'purpose' => $row['purpose'],
+                    'admin_first' => $row['admin_first'],
+                    'admin_last' => $row['admin_last'],
+                    'items' => [] 
+                ];
+            }
+            
+            // Add the medicine to this transaction's items array.
+            $medName = $row['medicine_name'];
+            if (!isset($groupedLogs[$id]['items'][$medName])) {
+                $groupedLogs[$id]['items'][$medName] = 0;
+            }
+            $groupedLogs[$id]['items'][$medName] += $row['quantity'];
+        }
 
     } catch (PDOException $e) {
-        // Fallback for database errors
         $error_message = "System error: Unable to retrieve logs.";
     }
 ?>
@@ -64,12 +93,10 @@
         <hr class="yellow-line">
 
         <div class="toolbar">
-            <!-- Added id="searchInput" -->
             <input type="text" id="searchInput" placeholder="Search by Student/Employee Name or ID..." class="search-input">
         </div>
 
         <div class="table-container">
-            <!-- Added id="logsTable" -->
             <table class="logs-table" id="logsTable">
                 <thead>
                     <tr>
@@ -89,27 +116,18 @@
                                 <?php echo $error_message; ?>
                             </td>
                         </tr>
-                    <?php elseif (empty($logs)): ?>
+                    <?php elseif (empty($groupedLogs)): ?>
                         <tr>
                             <td colspan="7" style="text-align: center; color: #6b7280; padding: 40px;">
                                 No dispensation history found in the system.
                             </td>
                         </tr>
                     <?php else: ?>
-                        <?php foreach ($logs as $log): 
-                            // Format date for the 'text-date' class: YYYY-MM-DD | HH:MM
+                        <?php foreach ($groupedLogs as $log): 
                             $formattedDate = date('Y-m-d | H:i', strtotime($log['dispense_date']));
-                            
-                            // Badge logic: Uppercase and conditional CSS classes
                             $rawType = strtoupper($log['patient_type']);
                             $badgeClass = ($rawType === 'STUDENT') ? 'badge-student' : 'badge-employee';
-
-                            // Logical ID Generation based on Patient Type
-                            $displayID = ($rawType === 'STUDENT') 
-                                ? '21-0001-' . str_pad($log['patient_id'], 3, '0', STR_PAD_LEFT) 
-                                : 'EMP-' . str_pad($log['patient_id'], 4, '0', STR_PAD_LEFT);
                         ?>
-                            <!-- Added class="data-row" -->
                             <tr class="data-row">
                                 <td class="text-date"><?php echo $formattedDate; ?></td>
                                 
@@ -117,7 +135,8 @@
                                     <span class="patient-name">
                                         <?php echo htmlspecialchars($log['patient_first'] . ' ' . $log['patient_last']); ?>
                                     </span>
-                                    <span class="patient-id">ID: <?php echo $displayID; ?></span>
+                                    <!-- DISPLAY THE REAL DB ID INSTEAD OF THE GENERATED ONE -->
+                                    <span class="patient-id">ID: <?php echo htmlspecialchars($log['school_id']); ?></span>
                                 </td>
                                 
                                 <td>
@@ -127,11 +146,15 @@
                                 </td>
                                 
                                 <td class="medicine-text">
-                                    <?php echo htmlspecialchars($log['medicine_name']); ?>
+                                    <?php foreach ($log['items'] as $medName => $qty): ?>
+                                        <div style="margin-bottom: 5px;"><?php echo htmlspecialchars($medName); ?></div>
+                                    <?php endforeach; ?>
                                 </td>
                                 
                                 <td class="qty-bold">
-                                    <?php echo number_format($log['quantity']); ?>
+                                    <?php foreach ($log['items'] as $medName => $qty): ?>
+                                        <div style="margin-bottom: 5px;"><?php echo number_format($qty); ?></div>
+                                    <?php endforeach; ?>
                                 </td>
                                 
                                 <td>
@@ -164,11 +187,9 @@
                 const searchTerm = e.target.value.toLowerCase().trim();
 
                 tableRows.forEach(row => {
-                    // Grab the text from the "Patient Details" column (index 1)
-                    // This contains both the First/Last Name and the generated ID
+                    // The JS will automatically pick up the real school_id since it reads the text content of this cell!
                     const patientDetails = row.cells[1].textContent.toLowerCase();
 
-                    // If the search term is found anywhere in the name or ID, show the row
                     if (patientDetails.includes(searchTerm)) {
                         row.style.display = '';
                     } else {

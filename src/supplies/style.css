@@ -280,3 +280,9 @@
     border-left: 4px solid #d93025; 
     font-weight: bold; 
 }
+
+/* Make rows highlight slightly when hovering to indicate they can be clicked */
+.supplies-table tbody tr.hover-row:hover {
+    background-color: #fdf6d9; /* A very light yellow highlight */
+    transition: background-color 0.1s ease-in-out;
+}
