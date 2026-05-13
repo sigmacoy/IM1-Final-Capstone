@@ -1,5 +1,12 @@
 /* <!-- dashboard/style.css --> */
 /* --- 1. Container & Layout --- */
+
+.card.current-inventory {
+    min-width: 300px; /* Fallback for older browsers */
+    min-width: clamp(250px, 35vw, 500px); /* Min 250px | Ideal 35% of viewport | Max 500px */
+    flex: 1; /* Allows card to grow and shrink relative to other flex items */
+}
+
 .dashboard-container {
     padding: 40px;
     max-width: 1200px;
@@ -105,6 +112,25 @@
 
 .dashboard-table tbody tr:last-child td {
     border-bottom: none;
+}
+
+.dashboard-table th:nth-child(1),
+.dashboard-table td:nth-child(1) {
+    text-align: center;
+}
+
+.dashboard-table th:nth-child(2),
+.dashboard-table td:nth-child(2) {
+    text-align: center;
+}
+
+.dashboard-table td:nth-child(3) {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.dashboard-table th:nth-child(3) {
+    text-align: center;
 }
 
 /* --- 5. Buttons & Badges --- */

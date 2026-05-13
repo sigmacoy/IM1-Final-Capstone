@@ -251,10 +251,12 @@
                         <?php else: ?>
                             <?php foreach ($groupedRecentLogs as $log): ?>
                                 <tr>
-                                    <td style="font-size: 0.9em; color: #6b7280; vertical-align: top; padding-top: 15px;">
+                                    <!-- Time Column -->
+                                    <td style="font-size: 0.9em; color: #6b7280; vertical-align: middle; text-align: center;">
                                         <?php echo date('g:i A', strtotime($log['dispense_date'])); ?>
                                     </td>
-                                    <td style="vertical-align: top; padding-top: 15px;">
+                                    <!-- Patient Column -->
+                                    <td style="vertical-align: middle;">
                                         <div style="font-weight: bold; color: #374151;">
                                             <?php echo htmlspecialchars($log['patient_first'] . ' ' . $log['patient_last']); ?>
                                         </div>
@@ -263,7 +265,8 @@
                                             ID: <?php echo htmlspecialchars($log['school_id']); ?>
                                         </div>
                                     </td>
-                                    <td style="vertical-align: top; padding-top: 15px;">
+                                    <!-- Item Despensed Column -->
+                                    <td style="vertical-align: middle;">
                                         <?php foreach ($log['items'] as $medName => $qty): ?>
                                             <div style="margin-bottom: 8px; font-size: 0.95em;">
                                                 <strong><?php echo htmlspecialchars($medName); ?></strong> 

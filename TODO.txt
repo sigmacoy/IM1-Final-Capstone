@@ -10,6 +10,3 @@ Arcel:
 
 Changes:
 
-1. In Dashboard tab, labels renamed into Low Stock Batches AND Batches Expiring Soon (60 Days)
-2. The width of yellow box is now fixed-size
-3. Center MEDICINE and QTY 1 input
