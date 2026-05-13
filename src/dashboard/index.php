@@ -199,11 +199,11 @@
             <h3><?php echo is_numeric($totalStock) ? number_format($totalStock) : $totalStock; ?></h3>
         </div>
         <div class="card stat-card low-stock">
-            <p>Low Stock Items</p>
+            <p>Low Stock Batches</p>
             <h3><?php echo $lowStock; ?></h3>
         </div>
         <div class="card stat-card expiring-soon">
-            <p>Expiring Soon (60 Days)</p>
+            <p>Batches Expiring Soon (60 Days)</p>
             <h3><?php echo $expiringSoon; ?></h3>
         </div>
     </div>
