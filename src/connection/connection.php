@@ -1,7 +1,7 @@
 <!-- connection/connection.php -->
 <?php
 // Default XAMPP database credentials
-$host = "localhost";
+$host = "127.0.0.1"; // localhost
 $username = "root";
 $password = ""; 
 $database = "citu_clinic_inventory"; // Updated to match your exact database name!

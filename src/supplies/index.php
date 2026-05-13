@@ -1,3 +1,4 @@
+<!-- supplies/index.php -->
 <?php
     session_start();
 
@@ -215,7 +216,7 @@
                             <td class="<?php echo $stockClass; ?>"><?php echo number_format($med['stock_level']); ?></td>
                             <td><?php echo number_format($med['reorder_level']); ?></td>
                             <td><?php echo htmlspecialchars($med['supplier_name']); ?></td>
-                            <td><?php echo $expiryDate->format('Y-m-d'); ?></td>
+                            <td><?php echo date('F d, Y', strtotime($med['expiry_date'])); ?></td>
                             <td><?php echo $statusHtml; ?></td>
                         </tr>
                     <?php endforeach; ?>

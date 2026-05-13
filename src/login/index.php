@@ -1,39 +1,50 @@
 <?php
-    session_start();
-    $error = '';
-    $showModal = false; // Flag to keep the modal open if there's an error
+session_start();
+require_once '../connection/connection.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
+// Initialize variables
+$error = '';
+$showModal = false;
 
-        try {
-            // Updated to connect to the correct database: citu_clinic_inventory
-            $pdo = new PDO("mysql:host=127.0.0.1;dbname=citu_clinic_inventory;port=3306", "root", "");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            // Fixed SQL Query: Only search for the exact email/username entered
-            $stmt = $pdo->prepare("SELECT * FROM User WHERE email = ?");
-            $stmt->execute([$email]); 
-            $user = $stmt->fetch();
-
-            // todo change it to hashing to make it more safer
-            if ($user && $password === $user['password']) { 
-                // Best practice: store the user_id in the session for future database inserts (like Dispensation)
-                $_SESSION['user_id'] = $user['user_id']; 
-                $_SESSION['user'] = $user['first_name'];
-                
-                header("Location: ../dashboard/index.php"); 
-                exit;
-            } else {
-                $error = "Invalid credentials.";
-                $showModal = true; // Trigger the modal to stay open
-            }
-        } catch (PDOException $e) {
-            $error = "Connection failed. Please check your database.";
+// Only process login if form was submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        // Get credentials from your login form
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        // Prepare statement to prevent SQL injection
+        $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        
+        // Verify password using password_verify()
+        if ($user && password_verify($password, $user['password'])) {
+            // Password is correct - store user data in session
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user'] = $user['first_name'];
+            $_SESSION['last_name'] = $user['last_name'];
+            $_SESSION['email'] = $user['email'];
+            
+            header("Location: ../dashboard/index.php");
+            exit;
+        } else {
+            $error = "Invalid credentials.";
             $showModal = true;
         }
+        
+        $stmt->close();
+        
+    } catch (Exception $e) {
+        $error = "Connection failed. Please check your database.";
+        $showModal = true;
     }
+}
+
+// If there's an error or the modal should be shown, keep it open
+$display_modal = ($showModal || $error) ? 'flex' : 'none';
 ?>
 
 <!DOCTYPE html>
@@ -111,8 +122,17 @@
     <script>
         function toggleLogin() {
             const overlay = document.getElementById('loginOverlay');
-            overlay.style.display = overlay.style.display === 'none' ? 'flex' : 'none';
+            const currentDisplay = overlay.style.display;
+            // Toggle between 'none' and 'flex'
+            overlay.style.display = currentDisplay === 'none' ? 'flex' : 'none';
         }
+
+        // If there was an error, make sure the modal is visible
+        <?php if ($showModal): ?>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginOverlay').style.display = 'flex';
+        });
+        <?php endif; ?>
     </script>
 </body>
 

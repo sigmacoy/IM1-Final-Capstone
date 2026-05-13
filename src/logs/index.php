@@ -1,3 +1,5 @@
+<!-- logs/index.php -->
+
 <?php
     session_start();
 
@@ -167,7 +169,7 @@
                                     <span class="admin-name">
                                         <?php echo htmlspecialchars($log['admin_first'] . ' ' . $log['admin_last']); ?>
                                     </span>
-                                    <span class="admin-label">(Admin)</span>
+                                    <span class="admin-label"></span>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

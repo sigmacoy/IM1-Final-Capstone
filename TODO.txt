@@ -1,14 +1,20 @@
 TODO:
 
 Macoy:
-1. removed all dispensation
-2. in Dispensation Tab, admin can add the school ID of the patient. 
-3. hash the user password. (make sure the admin can just input 123 and it still will work...) 
-4. in the main.php implement a register user sa table User, (implement here the hash problem) 
-5. rename expiring soon in dashboard into # of medicine batch expiring soon 
+1. rename expiring soon in dashboard into # of medicine batch expiring soon 
     If two data rows, have the same dispensation_id, Everything should be merged and centered, except "medicine" and "qty".
-6. Update ERD, update Metadata of Docx 
-7. Center MEDICINE and QTY 1 input
-8. Fix the contact numbers duplicate issues in Contact Number
+2. Center MEDICINE and QTY 1 input
 
 -------------------------------------------------------
+Changes:
+
+1. email changed to admin@cit.edu NOT citu.edu
+2. properly hashed value of admin user
+3. fixed the bug of random "Invalid Credentials" even tho nothings wrong on modal of login-splash
+4. added unique constraint to prevent duplicate mobile numbers for the same supplier
+5. Fixed the contact numbers duplicate issues in Contact Number in Suppliers TAB
+6. Centerized all column labels of Supplies, Suppliers, Logs
+7. Moved supplier column in Supplies tab more to the left
+8. Changed the Expiry-Date format text-based not number.
+9. Removed "(Admin)" sa Authorized by in Logs TAB 
+10. Updated citu_clinic_inventory.sql

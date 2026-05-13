@@ -21,10 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $name = trim($_POST['supplier_name']);
     $mobile_numbers = $_POST['mobile_numbers'] ?? []; // Array of numbers
     
-    // Remove empty values
+    // Remove empty values AND duplicates
     $mobile_numbers = array_filter($mobile_numbers, function($num) {
         return !empty(trim($num));
     });
+    
+    // Remove duplicate numbers
+    $mobile_numbers = array_unique($mobile_numbers);
 
     if (!empty($name) && !empty($mobile_numbers)) {
 
@@ -38,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $supplierId = $conn->insert_id;
             $stmt->close();
 
-            // Insert each contact number
+            // Insert each UNIQUE contact number
             $stmtContact = $conn->prepare("INSERT INTO SupplierContactNo (supplier_id, mobile_number) VALUES (?, ?)");
             foreach ($mobile_numbers as $mobile) {
                 $mobile = trim($mobile);
@@ -72,6 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $mobile_numbers = array_filter($mobile_numbers, function($num) {
         return !empty(trim($num));
     });
+    
+    // Remove duplicate numbers
+    $mobile_numbers = array_unique($mobile_numbers);
 
     $conn->begin_transaction();
 
@@ -88,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $stmtDelete->execute();
         $stmtDelete->close();
 
-        // Insert new contacts
+        // Insert new UNIQUE contacts
         if (!empty($mobile_numbers)) {
             $stmtContact = $conn->prepare("INSERT INTO SupplierContactNo (supplier_id, mobile_number) VALUES (?, ?)");
             foreach ($mobile_numbers as $mobile) {
@@ -160,14 +166,14 @@ $sql = "
     SELECT 
         s.supplier_id,
         s.name,
-        GROUP_CONCAT(sc.mobile_number SEPARATOR ', ') AS mobile_numbers,
+        GROUP_CONCAT(DISTINCT sc.mobile_number ORDER BY sc.mobile_number SEPARATOR ', ') AS mobile_numbers,
         COUNT(DISTINCT mb.batch_id) AS total_batches
     FROM Supplier s
     LEFT JOIN SupplierContactNo sc
         ON s.supplier_id = sc.supplier_id
     LEFT JOIN MedicineBatch mb
         ON s.supplier_id = mb.supplier_id
-    GROUP BY s.supplier_id
+    GROUP BY s.supplier_id, s.name
     ORDER BY s.name ASC
 ";
 
@@ -229,10 +235,15 @@ if ($result && $result->num_rows > 0) {
                             <td class="supplier-name"><strong><?php echo htmlspecialchars($sup['name']); ?></strong></td>
                             <td class="contact-numbers">
                                 <?php 
-                                $numbers = explode(', ', $sup['mobile_numbers']);
-                                foreach ($numbers as $number):
-                                    echo htmlspecialchars($number) . '<br>';
-                                endforeach;
+                                if (!empty($sup['mobile_numbers'])) {
+                                    $numbers = explode(', ', $sup['mobile_numbers']);
+                                    $unique_numbers = array_unique($numbers); // Remove any duplicates in display
+                                    foreach ($unique_numbers as $number):
+                                        echo htmlspecialchars($number) . '<br>';
+                                    endforeach;
+                                } else {
+                                    echo 'No contact numbers';
+                                }
                                 ?>
                             </td>
                             <td class="batch-count"><?php echo number_format($sup['total_batches']); ?></td>
@@ -329,9 +340,6 @@ if ($result && $result->num_rows > 0) {
         </div>
     </div>
 </div>
-
-
-<!-- JAVASCRIPT -->
 
 <!-- JAVASCRIPT -->
 <script>
