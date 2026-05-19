@@ -23,7 +23,7 @@
             try {
                 $pdo->beginTransaction();
 
-                $schoolId = trim($_POST['school_id']); // <-- ADDED THIS
+                $schoolId = trim($_POST['school_id']);
                 $pFirst = trim($_POST['patient_first']);
                 $pLast = trim($_POST['patient_last']);
                 $pType = $_POST['patient_type'];
@@ -143,7 +143,7 @@
             if (!isset($groupedRecentLogs[$id])) {
                 $groupedRecentLogs[$id] = [
                     'dispense_date' => $row['dispense_date'],
-                    'school_id'     => $row['school_id'], // <-- ADDED THIS
+                    'school_id'     => $row['school_id'],
                     'patient_first' => $row['patient_first'],
                     'patient_last'  => $row['patient_last'],
                     'items'         => []
@@ -297,7 +297,6 @@
             
             <h3 style="font-size: 15px; color: #7b2c31; margin-bottom: 10px;">1. Patient Details</h3>
             <div class="form-grid" style="margin-bottom: 20px;">
-                <!-- ADDED SCHOOL ID FIELD HERE -->
                 <div class="input-group" style="grid-column: 1 / -1;">
                     <label>School / Employee ID</label>
                     <input type="text" name="school_id" required placeholder="e.g. 21-0001-123">

@@ -350,7 +350,7 @@
 .table-scroll-container thead th {
     position: sticky;
     top: 0;
-    background-color: #f9fafb; /* Matches your header background */
+    background-color: #f9fafb; /* Matches the header background */
     z-index: 1;
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* Tiny shadow for depth */
 }

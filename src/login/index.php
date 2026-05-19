@@ -9,7 +9,7 @@ $showModal = false;
 // Only process login if form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Get credentials from your login form
+        // Get credentials from the login form
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
         
     } catch (Exception $e) {
-        $error = "Connection failed. Please check your database.";
+        $error = "Connection failed. Please check the database.";
         $showModal = true;
     }
 }

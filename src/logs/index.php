@@ -52,7 +52,7 @@
                 $groupedLogs[$id] = [
                     'dispense_date' => $row['dispense_date'],
                     'patient_id' => $row['patient_id'],
-                    'school_id' => $row['school_id'], // ADDED THIS LINE
+                    'school_id' => $row['school_id'],
                     'patient_first' => $row['patient_first'],
                     'patient_last' => $row['patient_last'],
                     'patient_type' => $row['patient_type'],
@@ -197,7 +197,7 @@
                 const searchTerm = e.target.value.toLowerCase().trim();
 
                 tableRows.forEach(row => {
-                    // The JS will automatically pick up the real school_id since it reads the text content of this cell!
+                    // The JS will automatically pick up the real school_id since it reads the text content of this cell
                     const patientDetails = row.cells[1].textContent.toLowerCase();
 
                     if (patientDetails.includes(searchTerm)) {

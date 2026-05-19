@@ -14,7 +14,7 @@
     $message = '';
 
     try {
-        // Connect to your database
+        // Connect to the database
         $pdo = new PDO("mysql:host=127.0.0.1;dbname=citu_clinic_inventory;port=3306", "root", "");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -288,7 +288,7 @@
     </div>
 </div>
 
-<!-- SCRIPTS -->
+<!-- JAVASCRIPT -->
 <script>
     // Logic for "Add Medicine" Modal
     function openModal() { document.getElementById('addMedicineModal').style.display = 'flex'; }

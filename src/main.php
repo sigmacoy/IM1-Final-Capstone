@@ -28,7 +28,7 @@ if ($check_stmt->num_rows > 0) {
     
     if ($insert_stmt->execute()) {
         $user_id = $insert_stmt->insert_id;
-        echo "✅ Admin user inserted successfully!\n";
+        echo "Admin user inserted successfully!\n";
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
         echo "User ID: {$user_id}\n";
         echo "First Name: {$first_name}\n";
@@ -38,7 +38,7 @@ if ($check_stmt->num_rows > 0) {
         echo "Hashed Password: {$hashed_password}\n";
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
     } else {
-        echo "❌ Error inserting user: " . $insert_stmt->error . "\n";
+        echo "Error inserting user: " . $insert_stmt->error . "\n";
     }
     $insert_stmt->close();
 }
